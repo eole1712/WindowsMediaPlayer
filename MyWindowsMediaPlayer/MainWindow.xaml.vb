@@ -45,6 +45,7 @@ Class MainWindow
             mediaScreen.Source = New Uri(fd.FileName)
             'check fichier OK (readable) !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
             If PlayNow Then
+                StopIt()
                 Play()
             End If
         End If
@@ -58,14 +59,14 @@ Class MainWindow
 
     Sub Play()
         _timer.Start()
-        'Try
-
-        'Catch ex As Exception
-
-        'End Try
-        If mediaScreen.Source <> Nothing Then
-            mediaScreen.Play()
-        End If
+        Try
+            If mediaScreen.Source <> Nothing Then
+                mediaScreen.Play()
+            End If
+        Catch ex As Exception
+            mediaScreen.Source = Nothing
+            MsgBox("Le fichier sélectionné n'est pas lisible par le lecteur.")
+        End Try
     End Sub
 
     Sub Pause()
@@ -77,6 +78,9 @@ Class MainWindow
 
     Sub StopIt()
         _timer.Stop()
+        timeSlider.Value = 0
+        timeSliderCurrentTime.Content = ""
+        timeSliderMaxTime.Content = ""
         mediaScreen.Stop()
     End Sub
 
