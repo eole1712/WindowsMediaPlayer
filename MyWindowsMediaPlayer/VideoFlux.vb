@@ -13,8 +13,21 @@
 
             'Binding videobrush
             'MediaElement. = db
+        End Sub
 
+        Sub Play()
             mp.Play()
         End Sub
+
+        Sub Pause()
+            If mp.CanPause Then
+                mp.Pause()
+            End If
+        End Sub
+
+        Sub StopIt()
+            mp.Stop()
+        End Sub
+
     End Class
 End Namespace
