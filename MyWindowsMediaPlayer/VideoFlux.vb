@@ -1,35 +1,33 @@
-﻿Namespace MyWindowsMediaPlayer
-    Public Class VideoFlux
-        Private Property mp As MediaPlayer
-        Private Property vd As VideoDrawing
-        Private Property db As DrawingBrush
+﻿Public Class VideoFlux
+    Private Property _mp As MediaPlayer
+    Private Property _vd As VideoDrawing
+    Private Property _db As DrawingBrush
 
-        Sub New(ByVal file As String)
-            mp = New MediaPlayer()
-            mp.Open(New Uri(file))
+    Sub New(ByVal file As String)
+        _mp = New MediaPlayer()
+        _mp.Open(New Uri(file))
 
-            vd = New VideoDrawing
-            vd.Player = mp
-            vd.Rect = New Rect(0, 0, 200, 200)
+        _vd = New VideoDrawing
+        _vd.Player = _mp
+        _vd.Rect = New Rect(0, 0, 200, 200)
 
-            db = New DrawingBrush(vd)
-            'Binding videobrush
-            'MediaElement. = db
-        End Sub
+        _db = New DrawingBrush(_vd)
+        'Binding videobrush
+        'MediaElement. = db
+    End Sub
 
-        Sub Play()
-            mp.Play()
-        End Sub
+    Sub Play()
+        _mp.Play()
+    End Sub
 
-        Sub Pause()
-            If mp.CanPause Then
-                mp.Pause()
-            End If
-        End Sub
+    Sub Pause()
+        If _mp.CanPause Then
+            _mp.Pause()
+        End If
+    End Sub
 
-        Sub StopIt()
-            mp.Stop()
-        End Sub
+    Sub StopIt()
+        _mp.Stop()
+    End Sub
 
-    End Class
-End Namespace
+End Class
