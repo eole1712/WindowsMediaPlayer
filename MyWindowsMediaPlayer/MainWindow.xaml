@@ -59,7 +59,7 @@
                         </DockPanel>
                     </Grid>
                 </DockPanel>
-                <DockPanel Grid.Column="1" Background="Black" OpacityMask="Black" MinWidth="192" MinHeight="538">
+                <DockPanel Grid.Column="1" Background="Black" OpacityMask="Black" MinWidth="360" MinHeight="240">
                     <Canvas x:Name="PlayerCanvas">
                         <MediaElement Canvas.ZIndex="1" x:Name="mediaScreen" LoadedBehavior="Manual" UnloadedBehavior="Stop" Stretch="Fill" MediaOpened="MediaOpened" MediaEnded="MediaEnded"
                                       Width="{Binding ActualWidth, ElementName=PlayerCanvas}"
@@ -83,22 +83,21 @@
                                         <ColumnDefinition Width="100" />
                                     </Grid.ColumnDefinitions>
                                     <DockPanel Grid.Column="0">
-                                        <Label x:Name="timeSliderCurrentTime" Margin="10,4" Width="60" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White" HorizontalContentAlignment="Center"/>
+                                        <Label x:Name="timeSliderCurrentTime" Margin="10,4" Width="60" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White"/>
                                     </DockPanel>
                                     <DockPanel Grid.Column="1">
-                                        <Slider x:Name="timeSlider" Margin="0,6" MinWidth="00" LargeChange="10" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch">
-                                            <Slider.BindingGroup>
-                                                <BindingGroup/>
-                                            </Slider.BindingGroup>
-                                        </Slider>
-                                    </DockPanel>
+                                        <Slider x:Name="timeSlider" Margin="0,6" MinWidth="00" LargeChange="10" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"/> 
+                                   </DockPanel>
                                     <DockPanel Grid.Column="2">
                                         <Label x:Name="timeSliderMaxTime" Margin="10,4" Width="60" VerticalAlignment="Center" Foreground="White" HorizontalAlignment="Center"/>
                                     </DockPanel>
                                 </Grid>
                             </DockPanel>
                             <DockPanel Grid.Row="2">
-                                <Button x:Name="playButton" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Center" Visibility="Visible">
+                                <Button x:Name="pauseButton" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Center" Visibility="Collapsed">
+                                    <Image Source="pack://siteoforigin:,,,/Resources/pause.png"/>
+                                </Button>
+                                <Button x:Name="playButton" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Center">
                                     <Image Source="pack://siteoforigin:,,,/Resources/play.png"/>
                                 </Button>
                                 <Button x:Name="nextButton" HorizontalAlignment="Left" Margin="14,0,0,0" VerticalAlignment="Center">
