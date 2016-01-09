@@ -18,7 +18,6 @@
             <StackPanel>
             </StackPanel>
         </DockPanel>
-
         <DockPanel Margin="10,30,643,10">
             <Label Content="Filtres: " HorizontalAlignment="Left" VerticalAlignment="Top"/>
             <StackPanel HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,0,0,0">
@@ -29,6 +28,16 @@
                     <ComboBoxItem x:Name="Music" Content="Music"/>
                 </ComboBox>
             </StackPanel>
+
+            <ListView x:Name="lstData" ItemsSource="{Binding}">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="Product ID" Width="Auto" DisplayMemberBinding="{Binding Path=ProductId}" />
+                        <GridViewColumn Header="Product Name" Width="Auto" DisplayMemberBinding="{Binding Path=ProductName}" />
+                        <GridViewColumn Header="Price" Width="Auto" DisplayMemberBinding="{Binding Path=Price}" />
+                    </GridView>
+                </ListView.View>
+            </ListView>
         </DockPanel>
         <Grid Margin="0,20,0,0" HorizontalAlignment="Right" VerticalAlignment="Top" Height="392" Width="638" Background="Black" OpacityMask="Black">
             <MediaElement x:Name="mediaScreen" LoadedBehavior="Manual" UnloadedBehavior="Stop" Stretch="Fill" MediaOpened="Element_MediaOpened" MediaEnded="Element_MediaEnded"/>
@@ -42,14 +51,20 @@
                     <Label Content="BRA" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                 </DockPanel>
                 <DockPanel Grid.Row="1">
-                    <Label x:Name="timeSliderCurrentTime" Margin="10,0,10,0" Content="0.0" HorizontalAlignment="Center" VerticalAlignment="Center" Opacity="0.7"/>
-                    <Slider x:Name="timeSlider" Width="536" Opacity="0.7"/>
-                    <Label x:Name="timeSliderMaxTime" Margin="10,0,10,0" Content="0.0" HorizontalAlignment="Center" VerticalAlignment="Center" Opacity="0.7"/>
+                    <Label x:Name="timeSliderCurrentTime" Margin="10,0,10,0" Width="40" Content="0.0" HorizontalAlignment="Center" VerticalAlignment="Center" Opacity="0.7" Foreground="White" HorizontalContentAlignment="Center"/>
+                    <Slider x:Name="timeSlider" Width="520" Opacity="0.7" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,6"/>
+                    <Label x:Name="timeSliderMaxTime" Margin="10,0,10,0" Width="40" Content="0.0" VerticalAlignment="Center" Opacity="0.7" Foreground="White" HorizontalAlignment="Center" HorizontalContentAlignment="Center"/>
                 </DockPanel>
                 <DockPanel Grid.Row="2">
-                    <Button x:Name="playButton"  Content=" Play " HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Center" Opacity="0.7"/>
-                    <Button x:Name="nextButton"  Content=" prev " HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Center" Opacity="0.7"/>
-                    <Button x:Name="prevButton"  Content=" next " HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Center" Opacity="0.7"/>
+                    <Button x:Name="playButton" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Center" Opacity="0.7">
+                        <Image x:Name="playButtonImage" />
+                    </Button>
+                    <Button x:Name="nextButton" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Center" Opacity="0.7">
+                        <Image x:Name="nextButtonImage" />
+                    </Button>
+                    <Button x:Name="prevButton" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Center" Opacity="0.7">
+                        <Image x:Name="prevButtonImage" />
+                    </Button>
                 </DockPanel>
             </Grid>
         </Grid>
