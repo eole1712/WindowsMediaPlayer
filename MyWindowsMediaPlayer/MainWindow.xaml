@@ -31,7 +31,7 @@
             </StackPanel>
         </DockPanel>
         <Grid Margin="0,20,0,0" HorizontalAlignment="Right" VerticalAlignment="Top" Height="392" Width="638" Background="Black" OpacityMask="Black">
-            <MediaElement x:Name="mediaElement"/>
+            <MediaElement x:Name="mediaScreen"/>
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*" />
