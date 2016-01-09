@@ -5,11 +5,15 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MyWindowsMediaPlayer"
         mc:Ignorable="d"
-        Title="MainWindow" Height="466" Width="1000">
+        Title="MainWindow" Height="640" Width="1054">
     <Grid Margin="0">
-        <DockPanel>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="24" />
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <DockPanel Grid.Row="0">
             <Menu DockPanel.Dock="Top">
-                <MenuItem Header="_File">
+                <MenuItem Header="_Fichier">
                     <MenuItem x:Name="openButton" Header="_Ouvrir"/>
                     <MenuItem x:Name="closeButton" Header="_Fermer"/>
                     <MenuItem x:Name="recentFileButton" Header="_Fichier récents"/>
@@ -20,66 +24,83 @@
             <StackPanel>
             </StackPanel>
         </DockPanel>
-        <DockPanel Margin="10,30,643,10">
+        <DockPanel Grid.Row="1">
             <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="28" />
-                    <RowDefinition Height="*" />
-                </Grid.RowDefinitions>
-                <DockPanel Grid.Row="0">
-                    <Label Content="Filtres: " HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                    <StackPanel HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,0,0,0">
-                        <ComboBox Width="120">
-                            <ComboBoxItem Content="Playlist"/>
-                            <ComboBoxItem Content="Video"/>
-                            <ComboBoxItem Content="Photos"/>
-                            <ComboBoxItem Content="Music"/>
-                        </ComboBox>
-                    </StackPanel>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="305" />
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <DockPanel Grid.Column="0">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="28" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <DockPanel Grid.Row="0">
+                            <Label Content="Filtres: " HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                            <StackPanel HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,0,0,0">
+                                <ComboBox Width="120">
+                                    <ComboBoxItem Content="Playlist"/>
+                                    <ComboBoxItem Content="Video"/>
+                                    <ComboBoxItem Content="Photos"/>
+                                    <ComboBoxItem Content="Music"/>
+                                </ComboBox>
+                            </StackPanel>
+                        </DockPanel>
+                        <DockPanel Grid.Row="1">
+                            <ListView x:Name="playList" Margin="2">
+                                <ListView.View>
+                                    <GridView>
+                                        <GridViewColumn Header="Titre" Width="Auto" />
+                                        <GridViewColumn Header="Durée" Width="Auto" />
+                                    </GridView>
+                                </ListView.View>
+                            </ListView>
+                        </DockPanel>
+                    </Grid>
                 </DockPanel>
-                <DockPanel Grid.Row="1">
-                    <ListView x:Name="playList">
-                        <ListView.View>
-                            <GridView>
-                                <GridViewColumn Header="Titre" Width="Auto" />
-                                <GridViewColumn Header="Durée" Width="Auto" />
-                            </GridView>
-                        </ListView.View>
-                    </ListView>
+                <DockPanel Grid.Column="1" Background="Black" OpacityMask="Black" MinWidth="192" MinHeight="538">
+                    <Image x:Name="imageScreen" />
+                    <MediaElement x:Name="mediaScreen" LoadedBehavior="Manual" UnloadedBehavior="Stop" Stretch="Fill" MediaOpened="Element_MediaOpened" MediaEnded="Element_MediaEnded"/>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="34"/>
+                            <RowDefinition Height="26" />
+                            <RowDefinition Height="10" />
+                        </Grid.RowDefinitions>
+                        <DockPanel Grid.Row="0">
+                        </DockPanel>
+                        <DockPanel Grid.Row="1">
+                            <Label x:Name="timeSliderCurrentTime" Margin="10,4" Width="60" HorizontalAlignment="Center" VerticalAlignment="Center" Opacity="0.7" Foreground="White" HorizontalContentAlignment="Center"/>
+                            <Slider x:Name="timeSlider" Opacity="0.7" Margin="0,6" MinWidth="00" LargeChange="10" Width="594">
+                                <Slider.BindingGroup>
+                                    <BindingGroup/>
+                                </Slider.BindingGroup>
+                            </Slider>
+                            <Label x:Name="timeSliderMaxTime" Margin="10,4" Width="60" VerticalAlignment="Center" Opacity="0.7" Foreground="White" HorizontalAlignment="Center" HorizontalContentAlignment="Center"/>
+                        </DockPanel>
+                        <DockPanel Grid.Row="2">
+                            <Button x:Name="playButton" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Center" Visibility="Visible">
+                                <Image Source="pack://siteoforigin:,,,/Resources/play.png"/>
+                            </Button>
+                            <Button x:Name="nextButton" HorizontalAlignment="Left" Margin="14,0,0,0" VerticalAlignment="Center" Opacity="0.7">
+                                <Image Source="pack://siteoforigin:,,,/Resources/prev.png"/>
+                            </Button>
+                            <Button x:Name="stopButton" HorizontalAlignment="Left" Margin="6,0,0,0" VerticalAlignment="Center" Opacity="0.7">
+                                <Image Source="pack://siteoforigin:,,,/Resources/stop.png"/>
+                            </Button>
+                            <Button x:Name="prevButton" HorizontalAlignment="Left" Margin="6,0,0,0" VerticalAlignment="Center" Opacity="0.7">
+                                <Image Source="pack://siteoforigin:,,,/Resources/next.png"/>
+                            </Button>
+                            <Slider x:Name="speedSlider" Margin="8,0,0,0" Opacity="0.7" Value="60" HorizontalAlignment="Left" VerticalAlignment="Center" MinWidth="75" Maximum="100"/>
+                            <Label Content="1x" HorizontalAlignment="Center"/>
+                            <Slider x:Name="volumeSlider" Margin="0,0,10,0" Opacity="0.7" Value="60" HorizontalAlignment="Right" DockPanel.Dock="Right" VerticalAlignment="Center" MinWidth="75" Maximum="100"/>
+                            <Label Content="70%" HorizontalAlignment="Right"/>
+                        </DockPanel>
+                    </Grid>
                 </DockPanel>
             </Grid>
         </DockPanel>
-        <Grid Margin="0,20,0,0" HorizontalAlignment="Right" VerticalAlignment="Top" Height="392" Width="638" Background="Black" OpacityMask="Black">
-            <MediaElement x:Name="mediaScreen" LoadedBehavior="Manual" UnloadedBehavior="Stop" Stretch="Fill" MediaOpened="Element_MediaOpened" MediaEnded="Element_MediaEnded"/>
-            <Image x:Name="imageScreen" />
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="*" />
-                    <RowDefinition Height="34"/>
-                    <RowDefinition Height="26" />
-                    <RowDefinition Height="10" />
-                </Grid.RowDefinitions>
-                <DockPanel Grid.Row="0">
-                    <Label Content="BRA" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                </DockPanel>
-                <DockPanel Grid.Row="1">
-                <Label x:Name="timeSliderCurrentTime" Margin="10,4" Width="50" HorizontalAlignment="Center" VerticalAlignment="Center" Opacity="0.7" Foreground="White" HorizontalContentAlignment="Center"/>
-                <Slider x:Name="timeSlider" Width="503" Opacity="0.7" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,6" LargeChange="10"/>
-                <Label x:Name="timeSliderMaxTime" Margin="10,4" Width="50" VerticalAlignment="Center" Opacity="0.7" Foreground="White" HorizontalAlignment="Center" HorizontalContentAlignment="Center"/>
-                </DockPanel>
-                <DockPanel Grid.Row="2">
-                    <Button x:Name="playButton" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Center" Visibility="Visible">
-                        <Image Source="pack://siteoforigin:,,,/Resources/play.png"/>
-                    </Button>
-                    <Button x:Name="nextButton" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Center" Opacity="0.7">
-                        <Image Source="pack://siteoforigin:,,,/Resources/prev.png"/>
-                    </Button>
-                    <Button x:Name="prevButton" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Center" Opacity="0.7">
-                        <Image Source="pack://siteoforigin:,,,/Resources/next.png"/>
-                    </Button>
-                    <Slider x:Name="volumeSlider" Margin="0,0,10,0" Opacity="0.7" Value="60" HorizontalAlignment="Right" VerticalAlignment="Center" MinWidth="75" Maximum="100"/>
-                </DockPanel>
-            </Grid>
-        </Grid>
     </Grid>
 </Window>
