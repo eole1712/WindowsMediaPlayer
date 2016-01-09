@@ -5,12 +5,14 @@
         Private Property db As DrawingBrush
 
         Sub New(ByVal file As String)
-            Dim mp As MediaPlayer = New MediaPlayer()
+            mp = New MediaPlayer()
             mp.Open(New Uri(file))
 
+            vd = New VideoDrawing
             vd.Player = mp
             vd.Rect = New Rect(0, 0, 200, 200)
 
+            db = New DrawingBrush(vd)
             'Binding videobrush
             'MediaElement. = db
         End Sub
