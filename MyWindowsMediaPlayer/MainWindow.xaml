@@ -5,12 +5,53 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MyWindowsMediaPlayer"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
-    <Grid Margin="0,0,0,59">
-        <MediaElement x:Name="mediaElement" HorizontalAlignment="Left" Height="213" Margin="10,10,0,0" VerticalAlignment="Top" Width="497"/>
-        <Button Content="Button" HorizontalAlignment="Left" Margin="10,233,0,0" VerticalAlignment="Top" Width="29"/>
-        <Button x:Name="button_Copy" Content="Button" HorizontalAlignment="Left" Margin="124,233,0,0" VerticalAlignment="Top" Width="75"/>
-        <Button x:Name="button_Copy1" Content="Button" HorizontalAlignment="Left" Margin="44,233,0,0" VerticalAlignment="Top" Width="75"/>
+        Title="MainWindow" Height="466" Width="1000">
+    <Grid Margin="0">
+        <DockPanel>
+            <Menu DockPanel.Dock="Top">
+                <MenuItem Header="_File">
+                    <MenuItem Header="_Open"/>
+                    <MenuItem Header="_Close"/>
+                    <MenuItem Header="_Save"/>
+                </MenuItem>
+            </Menu>
+            <StackPanel>
+            </StackPanel>
+        </DockPanel>
 
+        <DockPanel Margin="10,30,643,10">
+            <Label Content="Filtres: " HorizontalAlignment="Left" VerticalAlignment="Top"/>
+            <StackPanel HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,0,0,0">
+                <ComboBox Width="120">
+                    <ComboBoxItem x:Name="Playlist" Content="Playlist"/>
+                    <ComboBoxItem x:Name="Video" Content="Video"/>
+                    <ComboBoxItem x:Name="Photos" Content="Photos"/>
+                    <ComboBoxItem x:Name="Music" Content="Music"/>
+                </ComboBox>
+            </StackPanel>
+        </DockPanel>
+        <Grid Margin="0,20,0,0" HorizontalAlignment="Right" VerticalAlignment="Top" Height="392" Width="638" Background="Black" OpacityMask="Black">
+            <MediaElement x:Name="mediaElement"/>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="34"/>
+                    <RowDefinition Height="34" />
+                </Grid.RowDefinitions>
+                <DockPanel Grid.Row="0">
+                    <Label Content="BRA" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </DockPanel>
+                <DockPanel Grid.Row="1">
+                    <Label Margin="10,0,10,0" Content="0.0" HorizontalAlignment="Center" VerticalAlignment="Center" Opacity="0.7"/>
+                    <Slider Width="536" Opacity="0.7"/>
+                    <Label Margin="10,0,10,0" Content="0.0" HorizontalAlignment="Center" VerticalAlignment="Center" Opacity="0.7"/>
+                </DockPanel>
+                <DockPanel Grid.Row="2">
+                    <Button x:Name="playButton"  Content=" Play " HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Center" Opacity="0.7"/>
+                    <Button x:Name="nextButton"  Content=" prev " HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Center" Opacity="0.7"/>
+                    <Button x:Name="prevButton"  Content=" next " HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Center" Opacity="0.7"/>
+                </DockPanel>
+            </Grid>
+        </Grid>
     </Grid>
 </Window>
