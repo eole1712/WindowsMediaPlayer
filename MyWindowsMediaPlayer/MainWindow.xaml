@@ -86,7 +86,7 @@
                                         <Label x:Name="timeSliderCurrentTime" Margin="10,4" Width="60" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White"/>
                                     </DockPanel>
                                     <DockPanel Grid.Column="1">
-                                        <Slider x:Name="timeSlider" Margin="0,6" MinWidth="00" LargeChange="10" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"/> 
+                                        <Slider x:Name="timeSlider" Margin="0,6" MinWidth="00" LargeChange="10" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" SmallChange="1"/> 
                                    </DockPanel>
                                     <DockPanel Grid.Column="2">
                                         <Label x:Name="timeSliderMaxTime" Margin="10,4" Width="60" VerticalAlignment="Center" Foreground="White" HorizontalAlignment="Center"/>
@@ -109,10 +109,10 @@
                                 <Button x:Name="prevButton" HorizontalAlignment="Left" Margin="6,0,0,0" VerticalAlignment="Center">
                                     <Image Source="pack://siteoforigin:,,,/Resources/next.png"/>
                                 </Button>
-                                <Slider x:Name="speedSlider" Margin="8,0,0,0" Value="60" HorizontalAlignment="Left" VerticalAlignment="Center" MinWidth="75" Maximum="100"/>
-                                <Label Content="1x" HorizontalAlignment="Center" Foreground="White"/>
-                                <Slider x:Name="volumeSlider" Margin="0,0,10,0" Value="60" HorizontalAlignment="Right" DockPanel.Dock="Right" VerticalAlignment="Center" MinWidth="75" Maximum="100"/>
-                                <Label Content="70%" HorizontalAlignment="Right" Foreground="White"/>
+                                <Slider x:Name="speedSlider" Margin="8,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" MinWidth="75" Maximum="2" LargeChange="0.25"/>
+                                <Label x:Name="speed" Content="1x" HorizontalAlignment="Center" Foreground="White"/>
+                                <Slider x:Name="volumeSlider" Margin="0,0,10,0" HorizontalAlignment="Right" DockPanel.Dock="Right" VerticalAlignment="Center" MinWidth="75" Maximum="1" LargeChange="0.1" SmallChange="0.01"/>
+                                <Label x:Name="volume" HorizontalAlignment="Right" Foreground="White"/>
                             </DockPanel>
                         </Grid>
                     </Canvas>

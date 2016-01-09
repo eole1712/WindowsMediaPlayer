@@ -32,6 +32,12 @@ Class MainWindow
         'timeSliderCurrentTime.Content.SetBinding(TextBlock.TextProperty, myBinding)
     End Sub
 
+    Private Sub mediaScreen_Load(ByVal sender As Object, e As EventArgs) Handles mediaScreen.Loaded
+        volumeSlider.Value = 0.5
+
+        speedSlider.Value = 1
+    End Sub
+
     Sub OpenFile(ByVal PlayNow As Boolean)
         Dim fd As OpenFileDialog = New OpenFileDialog()
 
@@ -119,6 +125,16 @@ Class MainWindow
     End Sub
 
     Private Sub volumeSlider_ValueChanged(ByVal sender As Object, e As RoutedPropertyChangedEventArgs(Of Double)) Handles volumeSlider.ValueChanged
-        mediaScreen.Volume = volumeSlider.Value / 100
+        If mediaScreen.IsLoaded AndAlso volume.IsLoaded Then
+            mediaScreen.Volume = volumeSlider.Value
+            volume.Content = (volumeSlider.Value * 100).ToString & "%"
+        End If
+    End Sub
+
+    Private Sub speedSlider_ValueChanged(ByVal sender As Object, e As RoutedPropertyChangedEventArgs(Of Double)) Handles speedSlider.ValueChanged
+        If mediaScreen.IsLoaded AndAlso speed.IsLoaded Then
+            mediaScreen.SpeedRatio = speedSlider.Value
+            speed.Content = speedSlider.Value.ToString & "x"
+        End If
     End Sub
 End Class
