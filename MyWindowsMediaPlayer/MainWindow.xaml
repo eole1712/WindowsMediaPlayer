@@ -65,7 +65,7 @@
                                       Width="{Binding ActualWidth, ElementName=PlayerCanvas}"
                                       Height="{Binding ActualHeight, ElementName=PlayerCanvas}"/>
                         <Image Canvas.ZIndex="1" x:Name="imageScreen" />
-                        <Grid Opacity="0.7" Canvas.ZIndex="2"
+                        <Grid x:Name="panel" Opacity="0" Canvas.ZIndex="2"
                               Width="{Binding ActualWidth, ElementName=PlayerCanvas}"
                               Height="{Binding ActualHeight, ElementName=PlayerCanvas}">
                             <Grid.RowDefinitions>

@@ -13,7 +13,6 @@ Imports System.Windows.Threading
 
 Class MainWindow
 
-    Private Property _txt As String = ""
     Private Property _isDraggingSlider As Boolean = False
     Private WithEvents _timer As DispatcherTimer
 
@@ -34,8 +33,15 @@ Class MainWindow
 
     Private Sub mediaScreen_Load(ByVal sender As Object, e As EventArgs) Handles mediaScreen.Loaded
         volumeSlider.Value = 0.5
-
         speedSlider.Value = 1
+    End Sub
+
+    Private Sub mediaScreen_GotFocus(ByVal sender As Object, e As EventArgs) Handles mediaScreen.GotFocus
+        panel.Opacity = 0.7
+    End Sub
+
+    Private Sub mediaScreen_LostFocus(ByVal sender As Object, e As EventArgs) Handles mediaScreen.LostFocus
+        panel.Opacity = 0
     End Sub
 
     Sub OpenFile(ByVal PlayNow As Boolean)
@@ -120,7 +126,7 @@ Class MainWindow
 
     Private Sub timeSlider_ValueChanged(ByVal sender As Object, e As RoutedPropertyChangedEventArgs(Of Double)) Handles timeSlider.ValueChanged
         mediaScreen.Position = TimeSpan.FromSeconds(timeSlider.Value)
-
+        Console.Write("yo")
         timeSliderCurrentTime.Content = TimeSpan.FromSeconds(timeSlider.Value).ToString("hh\:mm\:ss")
     End Sub
 
