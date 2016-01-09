@@ -43,9 +43,7 @@ Class MainWindow
 
         If fd.ShowDialog() = Forms.DialogResult.OK Then
             mediaScreen.Source = New Uri(fd.FileName)
-            'check fichier OK (readable) !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
             If PlayNow Then
-                StopIt()
                 Play()
             End If
         End If
@@ -79,8 +77,7 @@ Class MainWindow
     Sub StopIt()
         _timer.Stop()
         timeSlider.Value = 0
-        timeSliderCurrentTime.Content = ""
-        timeSliderMaxTime.Content = ""
+        timeSliderCurrentTime.Content = "00:00:00"
         mediaScreen.Stop()
     End Sub
 
@@ -94,11 +91,13 @@ Class MainWindow
     End Sub
 
     Private Sub mediaOpened(ByVal sender As Object, ByVal args As RoutedEventArgs)
-        timeSlider.Minimum = 0
-        timeSliderCurrentTime.Content = "00:00:00"
+        If mediaScreen.NaturalDuration.HasTimeSpan Then
+            timeSlider.Minimum = 0
+            timeSliderCurrentTime.Content = "00:00:00"
 
-        timeSlider.Maximum = mediaScreen.NaturalDuration.TimeSpan.TotalSeconds
-        timeSliderMaxTime.Content = mediaScreen.NaturalDuration.TimeSpan.ToString("hh\:mm\:ss")
+            timeSlider.Maximum = mediaScreen.NaturalDuration.TimeSpan.TotalSeconds
+            timeSliderMaxTime.Content = mediaScreen.NaturalDuration.TimeSpan.ToString("hh\:mm\:ss")
+        End If
     End Sub
 
     Private Sub mediaEnded(ByVal sender As Object, ByVal args As RoutedEventArgs)
@@ -107,6 +106,10 @@ Class MainWindow
 
     Private Sub playButton_Click(ByVal sender As Object, e As RoutedEventArgs) Handles playButton.Click
         Play()
+    End Sub
+
+    Private Sub stopButton_Click(ByVal sender As Object, e As RoutedEventArgs) Handles stopButton.Click
+        StopIt()
     End Sub
 
     Private Sub timeSlider_ValueChanged(ByVal sender As Object, e As RoutedPropertyChangedEventArgs(Of Double)) Handles timeSlider.ValueChanged
