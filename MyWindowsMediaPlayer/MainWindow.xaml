@@ -11,7 +11,7 @@
             <Menu DockPanel.Dock="Top">
                 <MenuItem Header="_File">
                     <MenuItem x:Name="openButton" Header="_Open"/>
-                    <MenuItem Header="_Close"/>
+                    <MenuItem x:Name="closeButton" Header="_Close"/>
                     <MenuItem Header="_Save"/>
                 </MenuItem>
             </Menu>
@@ -52,7 +52,7 @@
                 </DockPanel>
                 <DockPanel Grid.Row="1">
                     <Label x:Name="timeSliderCurrentTime" Margin="10,0,10,0" Width="40" HorizontalAlignment="Center" VerticalAlignment="Center" Opacity="0.7" Foreground="White" HorizontalContentAlignment="Center"/>
-                    <Slider x:Name="timeSlider" Width="520" Opacity="0.7" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,6"/>
+                    <Slider x:Name="timeSlider" Width="520" Opacity="0.7" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,6" />
                     <Label x:Name="timeSliderMaxTime" Margin="10,0,10,0" Width="40" VerticalAlignment="Center" Opacity="0.7" Foreground="White" HorizontalAlignment="Center" HorizontalContentAlignment="Center"/>
                 </DockPanel>
                 <DockPanel Grid.Row="2">
