@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MyWindowsMediaPlayer"
         mc:Ignorable="d"
-        Title="MainWindow" Height="640" Width="1054">
+        Title="MainWindow" Height="672" Width="1054">
     <Grid Margin="0">
         <Grid.RowDefinitions>
             <RowDefinition Height="24" />
@@ -60,45 +60,63 @@
                     </Grid>
                 </DockPanel>
                 <DockPanel Grid.Column="1" Background="Black" OpacityMask="Black" MinWidth="192" MinHeight="538">
-                    <Image x:Name="imageScreen" />
-                    <MediaElement x:Name="mediaScreen" LoadedBehavior="Manual" UnloadedBehavior="Stop" Stretch="Fill" MediaOpened="mediaOpened" MediaEnded="mediaEnded"/>
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="*" />
-                            <RowDefinition Height="34"/>
-                            <RowDefinition Height="26" />
-                            <RowDefinition Height="10" />
-                        </Grid.RowDefinitions>
-                        <DockPanel Grid.Row="0">
-                        </DockPanel>
-                        <DockPanel Grid.Row="1">
-                            <Label x:Name="timeSliderCurrentTime" Margin="10,4" Width="60" HorizontalAlignment="Center" VerticalAlignment="Center" Opacity="0.7" Foreground="White" HorizontalContentAlignment="Center"/>
-                            <Slider x:Name="timeSlider" Opacity="0.7" Margin="0,6" MinWidth="00" LargeChange="10" Width="594">
-                                <Slider.BindingGroup>
-                                    <BindingGroup/>
-                                </Slider.BindingGroup>
-                            </Slider>
-                            <Label x:Name="timeSliderMaxTime" Margin="10,4" Width="60" VerticalAlignment="Center" Opacity="0.7" Foreground="White" HorizontalAlignment="Center" HorizontalContentAlignment="Center"/>
-                        </DockPanel>
-                        <DockPanel Grid.Row="2">
-                            <Button x:Name="playButton" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Center" Visibility="Visible">
-                                <Image Source="pack://siteoforigin:,,,/Resources/play.png"/>
-                            </Button>
-                            <Button x:Name="nextButton" HorizontalAlignment="Left" Margin="14,0,0,0" VerticalAlignment="Center" Opacity="0.7">
-                                <Image Source="pack://siteoforigin:,,,/Resources/prev.png"/>
-                            </Button>
-                            <Button x:Name="stopButton" HorizontalAlignment="Left" Margin="6,0,0,0" VerticalAlignment="Center" Opacity="0.7">
-                                <Image Source="pack://siteoforigin:,,,/Resources/stop.png"/>
-                            </Button>
-                            <Button x:Name="prevButton" HorizontalAlignment="Left" Margin="6,0,0,0" VerticalAlignment="Center" Opacity="0.7">
-                                <Image Source="pack://siteoforigin:,,,/Resources/next.png"/>
-                            </Button>
-                            <Slider x:Name="speedSlider" Margin="8,0,0,0" Opacity="0.7" Value="60" HorizontalAlignment="Left" VerticalAlignment="Center" MinWidth="75" Maximum="100"/>
-                            <Label Content="1x" HorizontalAlignment="Center"/>
-                            <Slider x:Name="volumeSlider" Margin="0,0,10,0" Opacity="0.7" Value="60" HorizontalAlignment="Right" DockPanel.Dock="Right" VerticalAlignment="Center" MinWidth="75" Maximum="100"/>
-                            <Label Content="70%" HorizontalAlignment="Right"/>
-                        </DockPanel>
-                    </Grid>
+                    <Canvas x:Name="PlayerCanvas">
+                        <MediaElement Canvas.ZIndex="1" x:Name="mediaScreen" LoadedBehavior="Manual" UnloadedBehavior="Stop" Stretch="Fill" MediaOpened="MediaOpened" MediaEnded="MediaEnded"
+                                      Width="{Binding ActualWidth, ElementName=PlayerCanvas}"
+                                      Height="{Binding ActualHeight, ElementName=PlayerCanvas}"/>
+                        <Image Canvas.ZIndex="1" x:Name="imageScreen" />
+                        <Grid Opacity="0.7" Canvas.ZIndex="2"
+                              Width="{Binding ActualWidth, ElementName=PlayerCanvas}"
+                              Height="{Binding ActualHeight, ElementName=PlayerCanvas}">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="34"/>
+                                <RowDefinition Height="26" />
+                                <RowDefinition Height="10" />
+                            </Grid.RowDefinitions>
+                            <DockPanel Grid.Row="0"/>
+                            <DockPanel Grid.Row="1">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="100" />
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="100" />
+                                    </Grid.ColumnDefinitions>
+                                    <DockPanel Grid.Column="0">
+                                        <Label x:Name="timeSliderCurrentTime" Margin="10,4" Width="60" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White" HorizontalContentAlignment="Center"/>
+                                    </DockPanel>
+                                    <DockPanel Grid.Column="1">
+                                        <Slider x:Name="timeSlider" Margin="0,6" MinWidth="00" LargeChange="10" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch">
+                                            <Slider.BindingGroup>
+                                                <BindingGroup/>
+                                            </Slider.BindingGroup>
+                                        </Slider>
+                                    </DockPanel>
+                                    <DockPanel Grid.Column="2">
+                                        <Label x:Name="timeSliderMaxTime" Margin="10,4" Width="60" VerticalAlignment="Center" Foreground="White" HorizontalAlignment="Center"/>
+                                    </DockPanel>
+                                </Grid>
+                            </DockPanel>
+                            <DockPanel Grid.Row="2">
+                                <Button x:Name="playButton" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Center" Visibility="Visible">
+                                    <Image Source="pack://siteoforigin:,,,/Resources/play.png"/>
+                                </Button>
+                                <Button x:Name="nextButton" HorizontalAlignment="Left" Margin="14,0,0,0" VerticalAlignment="Center">
+                                    <Image Source="pack://siteoforigin:,,,/Resources/prev.png"/>
+                                </Button>
+                                <Button x:Name="stopButton" HorizontalAlignment="Left" Margin="6,0,0,0" VerticalAlignment="Center">
+                                    <Image Source="pack://siteoforigin:,,,/Resources/stop.png"/>
+                                </Button>
+                                <Button x:Name="prevButton" HorizontalAlignment="Left" Margin="6,0,0,0" VerticalAlignment="Center">
+                                    <Image Source="pack://siteoforigin:,,,/Resources/next.png"/>
+                                </Button>
+                                <Slider x:Name="speedSlider" Margin="8,0,0,0" Value="60" HorizontalAlignment="Left" VerticalAlignment="Center" MinWidth="75" Maximum="100"/>
+                                <Label Content="1x" HorizontalAlignment="Center" Foreground="White"/>
+                                <Slider x:Name="volumeSlider" Margin="0,0,10,0" Value="60" HorizontalAlignment="Right" DockPanel.Dock="Right" VerticalAlignment="Center" MinWidth="75" Maximum="100"/>
+                                <Label Content="70%" HorizontalAlignment="Right" Foreground="White"/>
+                            </DockPanel>
+                        </Grid>
+                    </Canvas>
                 </DockPanel>
             </Grid>
         </DockPanel>
