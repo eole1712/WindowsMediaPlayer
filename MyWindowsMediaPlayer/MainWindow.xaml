@@ -50,7 +50,7 @@
             </Grid>
         </DockPanel>
         <Grid Margin="0,20,0,0" HorizontalAlignment="Right" VerticalAlignment="Top" Height="392" Width="638" Background="Black" OpacityMask="Black">
-            <MediaElement x:Name="mediaScreen" LoadedBehavior="Manual" UnloadedBehavior="Stop" Stretch="Fill" MediaOpened="Element_MediaOpened" MediaEnded="Element_MediaEnded"/>
+            <MediaElement x:Name="mediaScreen" LoadedBehavior="Manual" UnloadedBehavior="Stop" Stretch="Fill" MediaOpened="mediaOpened" MediaEnded="mediaEnded"/>
             <Image x:Name="imageScreen" />
             <Grid>
                 <Grid.RowDefinitions>

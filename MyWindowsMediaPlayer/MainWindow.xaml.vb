@@ -24,7 +24,6 @@ Class MainWindow
         ' Ajoutez une initialisation quelconque après l'appel InitializeComponent().
         _timer = New DispatcherTimer()
         _timer.Interval = TimeSpan.FromSeconds(1)
-        _timer.Start()
 
         'timeSliderCurrentTime.Content.SetBinding(TimeSpan.FromSeconds(timeSlider.Value).ToString("hh\: mm\: ss"), "timeSliderCurrentTime")
         'timeSliderCurrentTime.Content.SetBinding(_txt, New Forms.Binding("timeSliderCurrentTime", _txt, timeSliderCurrentTime.Content))
@@ -33,13 +32,7 @@ Class MainWindow
         'timeSliderCurrentTime.Content.SetBinding(TextBlock.TextProperty, myBinding)
     End Sub
 
-    Private Sub timeSlider_Tick(ByVal sender As Object, e As EventArgs) Handles _timer.Tick
-        If mediaScreen.Source <> Nothing AndAlso mediaScreen.NaturalDuration.HasTimeSpan AndAlso Not _isDraggingSlider Then
-            timeSlider.Value = mediaScreen.Position.TotalSeconds
-        End If
-    End Sub
-
-    Private Sub openButton_Click(sender As Object, e As RoutedEventArgs) Handles openButton.Click
+    Sub OpenFile(ByVal PlayNow As Boolean)
         Dim fd As OpenFileDialog = New OpenFileDialog()
 
         fd.Title = "Choisissez un fichier à ouvrir..."
@@ -50,15 +43,53 @@ Class MainWindow
 
         If fd.ShowDialog() = Forms.DialogResult.OK Then
             mediaScreen.Source = New Uri(fd.FileName)
+            'check fichier OK (readable) !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            If PlayNow Then
+                Play()
+            End If
+        End If
+    End Sub
+
+    Private Sub timeSlider_Tick(ByVal sender As Object, e As EventArgs) Handles _timer.Tick
+        If mediaScreen.Source <> Nothing AndAlso mediaScreen.NaturalDuration.HasTimeSpan AndAlso Not _isDraggingSlider Then
+            timeSlider.Value = mediaScreen.Position.TotalSeconds
+        End If
+    End Sub
+
+    Sub Play()
+        _timer.Start()
+        'Try
+
+        'Catch ex As Exception
+
+        'End Try
+        If mediaScreen.Source <> Nothing Then
             mediaScreen.Play()
         End If
     End Sub
 
-    Private Sub closeButton_Click(sender As Object, e As RoutedEventArgs) Handles closeButton.Click
-
+    Sub Pause()
+        If mediaScreen.CanPause Then
+            _timer.Stop()
+            mediaScreen.Pause()
+        End If
     End Sub
 
-    Private Sub Element_MediaOpened(ByVal sender As Object, ByVal args As RoutedEventArgs)
+    Sub StopIt()
+        _timer.Stop()
+        mediaScreen.Stop()
+    End Sub
+
+    Private Sub openButton_Click(sender As Object, e As RoutedEventArgs) Handles openButton.Click
+        OpenFile(True)
+    End Sub
+
+    Private Sub closeButton_Click(sender As Object, e As RoutedEventArgs) Handles closeButton.Click
+        StopIt()
+        mediaScreen.Source = Nothing
+    End Sub
+
+    Private Sub mediaOpened(ByVal sender As Object, ByVal args As RoutedEventArgs)
         timeSlider.Minimum = 0
         timeSliderCurrentTime.Content = "00:00:00"
 
@@ -66,14 +97,12 @@ Class MainWindow
         timeSliderMaxTime.Content = mediaScreen.NaturalDuration.TimeSpan.ToString("hh\:mm\:ss")
     End Sub
 
-    Private Sub Element_MediaEnded(ByVal sender As Object, ByVal args As RoutedEventArgs)
-        mediaScreen.Stop()
+    Private Sub mediaEnded(ByVal sender As Object, ByVal args As RoutedEventArgs)
+        StopIt()
     End Sub
 
     Private Sub playButton_Click(ByVal sender As Object, e As RoutedEventArgs) Handles playButton.Click
-        If mediaScreen.Source <> Nothing Then
-            mediaScreen.Play()
-        End If
+        Play()
     End Sub
 
     Private Sub timeSlider_ValueChanged(ByVal sender As Object, e As RoutedPropertyChangedEventArgs(Of Double)) Handles timeSlider.ValueChanged
