@@ -54,5 +54,7 @@ Class MainWindow
 
         Dim ts As New TimeSpan(0, 0, 0, 0, SliderValue)
         mediaScreen.Position = ts
+
+        timeSliderCurrentTime.Content = TimeSpan.FromSeconds(timeSlider.Value).ToString("hh\:mm\:ss")
     End Sub
 End Class

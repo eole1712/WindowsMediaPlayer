@@ -51,9 +51,9 @@
                     <Label Content="BRA" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                 </DockPanel>
                 <DockPanel Grid.Row="1">
-                    <Label x:Name="timeSliderCurrentTime" Margin="10,0,10,0" Width="40" Content="0.0" HorizontalAlignment="Center" VerticalAlignment="Center" Opacity="0.7" Foreground="White" HorizontalContentAlignment="Center"/>
+                    <Label x:Name="timeSliderCurrentTime" Margin="10,0,10,0" Width="40" HorizontalAlignment="Center" VerticalAlignment="Center" Opacity="0.7" Foreground="White" HorizontalContentAlignment="Center"/>
                     <Slider x:Name="timeSlider" Width="520" Opacity="0.7" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,6"/>
-                    <Label x:Name="timeSliderMaxTime" Margin="10,0,10,0" Width="40" Content="0.0" VerticalAlignment="Center" Opacity="0.7" Foreground="White" HorizontalAlignment="Center" HorizontalContentAlignment="Center"/>
+                    <Label x:Name="timeSliderMaxTime" Margin="10,0,10,0" Width="40" VerticalAlignment="Center" Opacity="0.7" Foreground="White" HorizontalAlignment="Center" HorizontalContentAlignment="Center"/>
                 </DockPanel>
                 <DockPanel Grid.Row="2">
                     <Button x:Name="playButton" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Center" Opacity="0.7">
