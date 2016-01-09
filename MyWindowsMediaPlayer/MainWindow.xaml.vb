@@ -31,16 +31,12 @@ Class MainWindow
         ' check à faire si fichier de merde !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         If fd.ShowDialog() = Forms.DialogResult.OK Then
             mediaScreen.Source = New Uri(fd.FileName)
-            mediaScreen.LoadedBehavior = MediaState.Manual
         End If
     End Sub
 
     Private Sub Element_MediaOpened(ByVal sender As Object, ByVal args As RoutedEventArgs)
         timeSlider.Maximum = mediaScreen.NaturalDuration.TimeSpan.TotalMilliseconds
-        timeSliderMaxTime.Content =
-            mediaScreen.NaturalDuration.TimeSpan.Hours & ":" _
-            & mediaScreen.NaturalDuration.TimeSpan.Minutes & ":" _
-            & mediaScreen.NaturalDuration.TimeSpan.Seconds
+        timeSliderMaxTime.Content = mediaScreen.NaturalDuration.TimeSpan.ToString("hh\:mm\:ss")
     End Sub
 
     Private Sub Element_MediaEnded(ByVal sender As Object, ByVal args As RoutedEventArgs)
