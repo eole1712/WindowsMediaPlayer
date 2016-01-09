@@ -31,7 +31,7 @@
             </StackPanel>
         </DockPanel>
         <Grid Margin="0,20,0,0" HorizontalAlignment="Right" VerticalAlignment="Top" Height="392" Width="638" Background="Black" OpacityMask="Black">
-            <MediaElement x:Name="mediaScreen"/>
+            <MediaElement x:Name="mediaScreen" LoadedBehavior="Manual" UnloadedBehavior="Stop" Stretch="Fill" MediaOpened="Element_MediaOpened" MediaEnded="Element_MediaEnded"/>
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*" />
@@ -42,9 +42,9 @@
                     <Label Content="BRA" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                 </DockPanel>
                 <DockPanel Grid.Row="1">
-                    <Label Margin="10,0,10,0" Content="0.0" HorizontalAlignment="Center" VerticalAlignment="Center" Opacity="0.7"/>
+                    <Label x:Name="timeSliderCurrentTime" Margin="10,0,10,0" Content="0.0" HorizontalAlignment="Center" VerticalAlignment="Center" Opacity="0.7"/>
                     <Slider x:Name="timeSlider" Width="536" Opacity="0.7"/>
-                    <Label Margin="10,0,10,0" Content="0.0" HorizontalAlignment="Center" VerticalAlignment="Center" Opacity="0.7"/>
+                    <Label x:Name="timeSliderMaxTime" Margin="10,0,10,0" Content="0.0" HorizontalAlignment="Center" VerticalAlignment="Center" Opacity="0.7"/>
                 </DockPanel>
                 <DockPanel Grid.Row="2">
                     <Button x:Name="playButton"  Content=" Play " HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Center" Opacity="0.7"/>

@@ -11,15 +11,12 @@ Imports System.Windows.Input
 Imports System.Windows.Forms
 
 Class MainWindow
-    Private Property _fileName As String
-    Private Property _videoFlux As VideoFlux
 
     Sub New()
         ' Cet appel est requis par le concepteur.
         InitializeComponent()
 
         ' Ajoutez une initialisation quelconque après l'appel InitializeComponent().
-        _fileName = ""
     End Sub
 
     Private Sub openButton_Click(sender As Object, e As RoutedEventArgs) Handles openButton.Click
@@ -32,18 +29,26 @@ Class MainWindow
         fd.RestoreDirectory = True
 
         ' check à faire si fichier de merde !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        'If fd.ShowDialog() = DialogResult Then
-        fd.ShowDialog()
-        _fileName = fd.FileName
+        If fd.ShowDialog() = Forms.DialogResult.OK Then
+            mediaScreen.Source = New Uri(fd.FileName)
+            mediaScreen.LoadedBehavior = MediaState.Manual
+        End If
+    End Sub
 
-        mediaScreen.Source = New Uri(_fileName)
-        mediaScreen.LoadedBehavior = MediaState.Manual
+    Private Sub Element_MediaOpened(ByVal sender As Object, ByVal args As RoutedEventArgs)
         timeSlider.Maximum = mediaScreen.NaturalDuration.TimeSpan.TotalMilliseconds
-        'End If
+        timeSliderMaxTime.Content =
+            mediaScreen.NaturalDuration.TimeSpan.Hours & ":" _
+            & mediaScreen.NaturalDuration.TimeSpan.Minutes & ":" _
+            & mediaScreen.NaturalDuration.TimeSpan.Seconds
+    End Sub
+
+    Private Sub Element_MediaEnded(ByVal sender As Object, ByVal args As RoutedEventArgs)
+        mediaScreen.Stop()
     End Sub
 
     Private Sub playButton_Click(sender As Object, e As RoutedEventArgs) Handles playButton.Click
-        If _fileName <> "" Then
+        If mediaScreen.Source <> Nothing Then
             mediaScreen.Play()
         End If
     End Sub
@@ -51,8 +56,6 @@ Class MainWindow
     Private Sub timeSlider_ValueChanged(sender As Object, e As RoutedPropertyChangedEventArgs(Of Double)) Handles timeSlider.ValueChanged
         Dim SliderValue As Integer = CType(timeSlider.Value, Integer)
 
-        ' Overloaded constructor takes the arguments days, hours, minutes, seconds, miniseconds.
-        ' Create a TimeSpan with miliseconds equal to the slider value.
         Dim ts As New TimeSpan(0, 0, 0, 0, SliderValue)
         mediaScreen.Position = ts
     End Sub
