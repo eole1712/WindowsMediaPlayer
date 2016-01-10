@@ -52,8 +52,8 @@
                             <ListView x:Name="list" Margin="2"  ItemsSource="{Binding Path=Playlist.Playlist}">
                                 <ListView.View>
                                     <GridView  AllowsColumnReorder="True" ColumnHeaderToolTip="Liste de lecture">
-                                        <GridViewColumn Header="Titre" Width="Auto" DisplayMemberBinding="{Binding Path=Title}"/>
-                                        <GridViewColumn Header="Durée" Width="Auto" DisplayMemberBinding="{Binding Path=PrettyDuration}"/>
+                                        <GridViewColumn Header="Titre" DisplayMemberBinding="{Binding Path=Title}"/>
+                                        <GridViewColumn Header="Durée" DisplayMemberBinding="{Binding Path=PrettyDuration}"/>
                                     </GridView>
                                 </ListView.View>
                             </ListView>
