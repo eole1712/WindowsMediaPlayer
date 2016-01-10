@@ -26,6 +26,9 @@
                     <MenuItem x:Name="savePlaylistButton" Header="_Enregistrer"/>
                     <MenuItem x:Name="closePlayListButton" Header="_Fermer"/>
                 </MenuItem>
+                <MenuItem Header="_Aide">
+                    <MenuItem x:Name="aboutUsButton" Header="_A propos de MyWindowsMediaPlayer"/>
+                </MenuItem>
             </Menu>
             <StackPanel>
             </StackPanel>
