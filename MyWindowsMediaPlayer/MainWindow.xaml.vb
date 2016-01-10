@@ -7,6 +7,7 @@ Imports System.IO
 Class MainWindow
 
     Private Property _isDraggingSlider As Boolean = False
+    Private Property _playlistWidth As GridLength = New GridLength(330)
     Private Property _playlist As Playlist = New Playlist()
     Private WithEvents _tmpMedia As MediaPlayer = New MediaPlayer()
     Private WithEvents _timer As DispatcherTimer = New DispatcherTimer()
@@ -125,7 +126,7 @@ Class MainWindow
 
         reader.Close()
         _playlist.Playlist.Clear()
-        For i = 0 To xmlPlayList.Count - 1
+        For i = 0 To xmlPlayList.Count - 2
             _playlist.Add(xmlPlayList(i))
         Next
     End Sub
@@ -321,7 +322,7 @@ Class MainWindow
         If (WindowStyle = System.Windows.WindowStyle.None) Then
             WindowState = WindowState.Normal
             WindowStyle = System.Windows.WindowStyle.SingleBorderWindow
-            playListPanel.Width = New GridLength(320)
+            playListPanel.Width = _playlistWidth
             menuBar.Height = New GridLength(24)
         Else
             WindowState = WindowState.Maximized
@@ -333,8 +334,9 @@ Class MainWindow
 
     Private Sub playListHideButton_Click(ByVal sender As Object, e As RoutedEventArgs) Handles playListHideButton.Click
         If playListPanel.Width = New GridLength(0) Then
-            playListPanel.Width = New GridLength(320)
+            playListPanel.Width = _playlistWidth
         Else
+            _playlistWidth = playListPanel.Width
             playListPanel.Width = New GridLength(0)
         End If
     End Sub
@@ -403,6 +405,13 @@ Class MainWindow
                     End If
                 End If
             End If
+        End If
+    End Sub
+
+    Private Sub list_MouseDoubleClick(sender As Object, e As MouseButtonEventArgs) Handles list.MouseDoubleClick
+        If list.SelectedIndex <> -1 And mediaScreen.Source <> New Uri(list.SelectedItem.Path) Then
+            mediaScreen.Source = New Uri(list.SelectedItem.Path)
+            Play()
         End If
     End Sub
     ' *** END list (Playlist) ***

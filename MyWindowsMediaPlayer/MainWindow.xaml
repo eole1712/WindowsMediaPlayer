@@ -37,6 +37,7 @@
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="330" x:Name="playListPanel"/>
+                    <ColumnDefinition Width="2"/>
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
                 <DockPanel Grid.Column="0">
@@ -74,7 +75,8 @@
                         </DockPanel>
                     </Grid>
                 </DockPanel>
-                <DockPanel x:Name="PlayerCanvas" Grid.Column="1" Background="Black" OpacityMask="Black" MinWidth="360" MinHeight="240">
+                <GridSplitter Grid.Column="1" HorizontalAlignment="Stretch" Background="Black"/>
+                <DockPanel x:Name="PlayerCanvas" Grid.Column="2" Background="Black" OpacityMask="Black" MinWidth="360" MinHeight="240">
                     <Canvas>
                         <MediaElement Canvas.ZIndex="1" x:Name="mediaScreen" LoadedBehavior="Manual" UnloadedBehavior="Stop"
                                       Width="{Binding ActualWidth, ElementName=PlayerCanvas}"
