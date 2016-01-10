@@ -125,7 +125,7 @@ Class MainWindow
         Dim xmlPlayList() As PlaylistItem = CType(serializer.Deserialize(reader), PlaylistItem())
 
         reader.Close()
-        _playlist.PlaylistAll.Clear()
+        _playlist.Clear()
         For i = 0 To xmlPlayList.Count - 2
             _playlist.Add(xmlPlayList(i))
         Next
@@ -404,6 +404,12 @@ Class MainWindow
     ' *** END Sliders ***
 
     ' *** BEGIN list (Playlist) ***
+    Private Sub filterSelect_SelectionChanged(sender As Object, e As RoutedEventArgs) Handles filterSelect.SelectionChanged
+        Dim Item = TryCast(filterSelect.SelectedValue, ComboBoxItem)
+
+        Playlist.FilterMedias(Item.Content)
+    End Sub
+
     Private Sub list_KeyUp(sender As Object, e As Input.KeyEventArgs) Handles list.KeyUp
         If e.Key = Key.Delete Then
             If _playlist.Remove(list.SelectedIndex) Then

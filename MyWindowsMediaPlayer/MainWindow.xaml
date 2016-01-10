@@ -49,10 +49,10 @@
                         <DockPanel Grid.Row="0">
                             <Label Content="Filtres: " HorizontalAlignment="Left" VerticalAlignment="Top"/>
                             <StackPanel HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,3,0,0">
-                                <ComboBox Width="120" SelectedIndex="0">
+                                <ComboBox x:Name="filterSelect" Width="120" SelectedIndex="0">
                                     <ComboBoxItem Content="Tout afficher"/>
                                     <ComboBoxItem Content="Video"/>
-                                    <ComboBoxItem Content="Musique"/>
+                                    <ComboBoxItem Content="Audio"/>
                                 </ComboBox>
                             </StackPanel>
                             <Button x:Name="selectionMoveDown" Margin="14,3,0,3" HorizontalAlignment="Left">

@@ -2,7 +2,7 @@
 
 Public Class Playlist
     Private Property _playlistAll As ObservableCollection(Of PlaylistItem) = New ObservableCollection(Of PlaylistItem)()
-    Private Property _playlistFiltered As ObservableCollection(Of PlaylistItem) = _playlistAll
+    Private Property _playlistFiltered As ObservableCollection(Of PlaylistItem) = New ObservableCollection(Of PlaylistItem)()
     Private Property _indexIsPlaying As Integer? = Nothing
     Private Property _filter As PlaylistItem.TypeMedia = PlaylistItem.TypeMedia.All
 
@@ -69,22 +69,28 @@ Public Class Playlist
 
     ' ************* END Getters/Setters *************
 
+    Sub New()
+        For Each Item In PlaylistAll
+            PlaylistFiltered.Add(Item)
+        Next
+    End Sub
+
     ' ************* BEGIN Actions *************
 
     Public Function IsEmpty() As Boolean
         Return (PlaylistFiltered.Count = 0)
     End Function
 
-    Public Sub Filter(ByVal Filter As String)
-        If Filter = "" Then
+    Public Sub FilterMedias(ByVal Filter As String)
+        If Filter = "Tout afficher" Then
             If _filter = PlaylistItem.TypeMedia.All Then
                 Return
             End If
 
             _filter = PlaylistItem.TypeMedia.All
-            PlaylistFiltered = New ObservableCollection(Of PlaylistItem)()
+            Clear()
             For Each Item In PlaylistAll
-                Add(Item)
+                PlaylistFiltered.Add(Item)
             Next
         ElseIf Filter = "Video" Then
             If _filter = PlaylistItem.TypeMedia.Video Then
@@ -92,10 +98,10 @@ Public Class Playlist
             End If
 
             _filter = PlaylistItem.TypeMedia.Video
-            PlaylistFiltered = New ObservableCollection(Of PlaylistItem)()
+            Clear()
             For Each Item In PlaylistAll
                 If Item.Type = PlaylistItem.TypeMedia.Video Then
-                    Add(Item)
+                    PlaylistFiltered.Add(Item)
                 End If
             Next
         ElseIf Filter = "Audio" Then
@@ -104,25 +110,28 @@ Public Class Playlist
             End If
 
             _filter = PlaylistItem.TypeMedia.Audio
-            PlaylistFiltered = New ObservableCollection(Of PlaylistItem)()
+            Clear()
             For Each Item In PlaylistAll
                 If Item.Type = PlaylistItem.TypeMedia.Audio Then
-                    Add(Item)
+                    PlaylistFiltered.Add(Item)
                 End If
             Next
         End If
     End Sub
 
     Public Sub Clear()
-        While Not IsEmpty()
-            Remove(0)
+        While PlaylistAll.Count > 0
+            PlaylistAll.Remove(PlaylistAll.ElementAt(0))
+        End While
+        While PlaylistFiltered.Count > 0
+            PlaylistFiltered.Remove(PlaylistFiltered.ElementAt(0))
         End While
         IndexIsPlaying = Nothing
     End Sub
 
     Public Sub Add(ByVal Item As PlaylistItem)
         PlaylistAll.Add(Item)
-        If Item.Type = _filter Then
+        If _filter = PlaylistItem.TypeMedia.All OrElse Item.Type = _filter Then
             PlaylistFiltered.Add(Item)
         End If
     End Sub
@@ -131,7 +140,9 @@ Public Class Playlist
         If Index < 0 OrElse Index >= PlaylistFiltered.Count Then
             Return False
         End If
-        PlaylistFiltered.Remove(PlaylistFiltered.ElementAt(Index))
+        Dim Item As PlaylistItem = PlaylistFiltered.ElementAt(Index)
+        PlaylistAll.Remove(Item)
+        PlaylistFiltered.Remove(Item)
         If IndexIsPlaying = Index Then
             If Not (IndexIsPlaying - 1 < 0) Then
                 IndexIsPlaying -= 1
@@ -162,7 +173,7 @@ Public Class Playlist
                 IndexIsPlaying = 0
             End If
             Return PathIsPlaying
-            End If
+        End If
     End Function
 
     Public Sub StopIt()
