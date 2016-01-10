@@ -331,10 +331,14 @@ Class MainWindow
     End Sub
 
     Private Sub prevButton_Click(ByVal sender As Object, e As RoutedEventArgs) Handles prevButton.Click
-        Dim toPlay As String = _playlist.PlayPrev()
-        If toPlay <> "" Then
-            mediaScreen.Source = New Uri(toPlay)
-            Play()
+        If mediaScreen.Position.Seconds > 0 Then
+            mediaScreen.Position = TimeSpan.FromSeconds(0)
+        Else
+            Dim toPlay As String = _playlist.PlayPrev()
+            If toPlay <> "" Then
+                mediaScreen.Source = New Uri(toPlay)
+                Play()
+            End If
         End If
     End Sub
 
