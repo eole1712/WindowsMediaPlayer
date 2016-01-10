@@ -24,6 +24,7 @@ Class MainWindow
     Private Property _isDraggingSlider As Boolean = False
     Public Property playList As ObservableCollection(Of playListItem)
     Private WithEvents _timer As DispatcherTimer
+    Private Property _list As List(Of OpenFileDialog)
 
     Sub New()
         ' Cet appel est requis par le concepteur.
@@ -91,16 +92,12 @@ Class MainWindow
         fd.RestoreDirectory = True
 
         If fd.ShowDialog() = Forms.DialogResult.OK Then
-            mediaScreen.Source = New Uri(fd.FileName)
             If PlayNow Then
+                mediaScreen.Source = New Uri(fd.FileName)
                 Play()
+            Else
+                _list.Add(fd)
             End If
-        End If
-    End Sub
-
-    Private Sub timeSlider_Tick(ByVal sender As Object, e As EventArgs) Handles _timer.Tick
-        If mediaScreen.Source <> Nothing AndAlso mediaScreen.NaturalDuration.HasTimeSpan AndAlso Not _isDraggingSlider Then
-            timeSlider.Value = mediaScreen.Position.TotalSeconds
         End If
     End Sub
 
@@ -149,6 +146,10 @@ Class MainWindow
         OpenFile(True)
     End Sub
 
+    Private Sub addToPlaylist_Click(sender As Object, e As RoutedEventArgs) Handles addToPlaylist.Click
+        OpenFile(False)
+    End Sub
+
     Private Sub closeButton_Click(sender As Object, e As RoutedEventArgs) Handles closeButton.Click
         StopIt()
         mediaScreen.Source = Nothing
@@ -182,28 +183,34 @@ Class MainWindow
         StopIt()
     End Sub
 
-    Private Sub UpdateTimeSlider()
+    Private Sub UpdateCurrentTime()
         mediaScreen.Position = TimeSpan.FromSeconds(timeSlider.Value)
         timeSliderCurrentTime.Content = TimeSpan.FromSeconds(timeSlider.Value).ToString("hh\:mm\:ss")
+    End Sub
+
+    Private Sub timeSlider_Tick(ByVal sender As Object, e As EventArgs) Handles _timer.Tick
+        If mediaScreen.Source <> Nothing AndAlso mediaScreen.NaturalDuration.HasTimeSpan AndAlso Not _isDraggingSlider Then
+            timeSlider.Value = mediaScreen.Position.TotalSeconds
+        End If
     End Sub
 
     Private Sub timeSlider_DragStarted(ByVal sender As Object, e As RoutedEventArgs)
         If mediaScreen.Source <> Nothing Then
             _isDraggingSlider = True
-            UpdateTimeSlider()
+            UpdateCurrentTime()
         End If
     End Sub
 
     Private Sub timeSlider_DragCompleted(ByVal sender As Object, e As RoutedEventArgs)
         If mediaScreen.Source <> Nothing Then
             _isDraggingSlider = False
-            UpdateTimeSlider()
+            UpdateCurrentTime()
         End If
     End Sub
 
     Private Sub timeSlider_ValueChanged(ByVal sender As Object, e As RoutedPropertyChangedEventArgs(Of Double)) Handles timeSlider.ValueChanged
         If mediaScreen.Source <> Nothing AndAlso Not _isDraggingSlider Then
-            UpdateTimeSlider()
+            UpdateCurrentTime()
         End If
     End Sub
 
