@@ -107,11 +107,11 @@ Class MainWindow
     End Sub
 
     Private Sub Serialize(ByVal Path As String)
-        Dim xmlPlayList(_playlist.Playlist.Count()) As PlaylistItem
+        Dim xmlPlayList(_playlist.PlaylistAll.Count()) As PlaylistItem
         Dim serializer As New XmlSerializer(GetType(PlaylistItem()))
         Dim writer As New StreamWriter(Path)
 
-        _playlist.Playlist.CopyTo(xmlPlayList, 0)
+        _playlist.PlaylistAll.CopyTo(xmlPlayList, 0)
         serializer.Serialize(writer, xmlPlayList)
         writer.Flush()
         writer.Close()
@@ -124,7 +124,7 @@ Class MainWindow
         Dim xmlPlayList() As PlaylistItem = CType(serializer.Deserialize(reader), PlaylistItem())
 
         reader.Close()
-        _playlist.Playlist.Clear()
+        _playlist.PlaylistAll.Clear()
         For i = 0 To xmlPlayList.Count - 1
             _playlist.Add(xmlPlayList(i))
         Next
@@ -250,7 +250,12 @@ Class MainWindow
         fd.RestoreDirectory = True
 
         If fd.ShowDialog() = Forms.DialogResult.OK Then
-            Unserialize(fd.FileName)
+            Try
+                Unserialize(fd.FileName)
+            Catch
+                Playlist.Clear()
+                MsgBox("Le fichier XML sélectionné est invalide.")
+            End Try
         End If
     End Sub
 
@@ -286,6 +291,17 @@ Class MainWindow
     End Sub
 
     ' *** END Playlist Buttons ***
+
+    ' *** BEGIN AboutUs Buttons ***
+
+    Private Sub aboutUsButton_Click(sender As Object, e As RoutedEventArgs) Handles aboutUsButton.Click
+        MsgBox("MyWindowsMediaPlayer" & Environment.NewLine _
+            & "Un logiciel de lecture de média vidéos, audios et images" & Environment.NewLine _
+            & "Développé par Jean GAMAIN, Grisha GHUKASYAN et Adrien HARNAY" & Environment.NewLine _
+            & "Développeurs étudiants à Epitech Paris")
+    End Sub
+
+    ' *** END AboutUs Buttons ***
 
     ' *** BEGIN Media Buttons ***
     Private Sub playButton_Click(ByVal sender As Object, e As RoutedEventArgs) Handles playButton.Click
@@ -410,7 +426,14 @@ Class MainWindow
     ' *** BEGIN _tmpMedia ***
     Private Sub _tmpMedia_MediaOpened(ByVal sender As Object, e As EventArgs) Handles _tmpMedia.MediaOpened
         If _tmpMedia.NaturalDuration.HasTimeSpan Then
-            _playlist.Add(New PlaylistItem(_tmpMedia.Source.ToString, _tmpMedia.NaturalDuration.TimeSpan))
+            Dim Type As PlaylistItem.TypeMedia
+
+            If _tmpMedia.HasVideo Then
+                Type = PlaylistItem.TypeMedia.Video
+            Else
+                Type = PlaylistItem.TypeMedia.Audio
+            End If
+            _playlist.Add(New PlaylistItem(_tmpMedia.Source.ToString, _tmpMedia.NaturalDuration.TimeSpan, Type))
         Else
             MsgBox("Cet élément ne peut pas être ajouté à la liste de lecture.")
         End If

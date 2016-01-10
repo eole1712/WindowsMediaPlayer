@@ -48,10 +48,9 @@
                         <DockPanel Grid.Row="0">
                             <Label Content="Filtres: " HorizontalAlignment="Left" VerticalAlignment="Top"/>
                             <StackPanel HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,3,0,0">
-                                <ComboBox Width="120">
-                                    <ComboBoxItem Content="Playlist"/>
+                                <ComboBox Width="120" SelectedIndex="0">
+                                    <ComboBoxItem Content="Tout afficher"/>
                                     <ComboBoxItem Content="Video"/>
-                                    <ComboBoxItem Content="Photo"/>
                                     <ComboBoxItem Content="Musique"/>
                                 </ComboBox>
                             </StackPanel>
@@ -63,7 +62,7 @@
                             </Button>
                         </DockPanel>
                         <DockPanel Grid.Row="1">
-                            <ListView x:Name="list" Margin="2"  ItemsSource="{Binding Path=Playlist.Playlist}">
+                            <ListView x:Name="list" Margin="2"  ItemsSource="{Binding Path=Playlist.PlaylistFiltered}">
                                 <ListView.View>
                                     <GridView  AllowsColumnReorder="True" ColumnHeaderToolTip="Liste de lecture">
                                         <GridViewColumn Header="Titre" DisplayMemberBinding="{Binding Path=Title}"/>
