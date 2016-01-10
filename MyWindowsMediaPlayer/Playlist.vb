@@ -88,7 +88,9 @@ Public Class Playlist
             End If
 
             _filter = PlaylistItem.TypeMedia.All
-            Clear()
+            While PlaylistFiltered.Count > 0
+                PlaylistFiltered.Remove(PlaylistFiltered.ElementAt(0))
+            End While
             For Each Item In PlaylistAll
                 PlaylistFiltered.Add(Item)
             Next
@@ -98,7 +100,9 @@ Public Class Playlist
             End If
 
             _filter = PlaylistItem.TypeMedia.Video
-            Clear()
+            While PlaylistFiltered.Count > 0
+                PlaylistFiltered.Remove(PlaylistFiltered.ElementAt(0))
+            End While
             For Each Item In PlaylistAll
                 If Item.Type = PlaylistItem.TypeMedia.Video Then
                     PlaylistFiltered.Add(Item)
@@ -110,7 +114,9 @@ Public Class Playlist
             End If
 
             _filter = PlaylistItem.TypeMedia.Audio
-            Clear()
+            While PlaylistFiltered.Count > 0
+                PlaylistFiltered.Remove(PlaylistFiltered.ElementAt(0))
+            End While
             For Each Item In PlaylistAll
                 If Item.Type = PlaylistItem.TypeMedia.Audio Then
                     PlaylistFiltered.Add(Item)
