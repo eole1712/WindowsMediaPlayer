@@ -96,6 +96,13 @@ Class MainWindow
         End If
     End Sub
 
+    Sub StopClose()
+        StopIt()
+        mediaScreen.Source = Nothing
+        timeSlider.Maximum = 1
+        timeSliderMaxTime.Content = "00:00:00"
+    End Sub
+
     ' ************* END Actions *************
 
     ' ************* BEGIN Helpers *************
@@ -177,10 +184,7 @@ Class MainWindow
     End Sub
 
     Private Sub mediaScreen_MediaFailed(ByVal sender As Object, ByVal args As RoutedEventArgs) Handles mediaScreen.MediaFailed
-        StopIt()
-        mediaScreen.Source = Nothing
-        timeSlider.Maximum = 1
-        timeSliderMaxTime.Content = "00:00:00"
+        StopClose()
         MsgBox("Le fichier sélectionné n'est pas lisible par le lecteur.")
     End Sub
 
@@ -199,8 +203,7 @@ Class MainWindow
     End Sub
 
     Private Sub closeButton_Click(sender As Object, e As RoutedEventArgs) Handles closeButton.Click
-        StopIt()
-        mediaScreen.Source = Nothing
+        StopClose()
     End Sub
     ' *** END File Buttons ***
 
