@@ -32,6 +32,8 @@ Class MainWindow
     End Sub
 
     Private Sub mediaScreen_Load(ByVal sender As Object, e As EventArgs) Handles mediaScreen.Loaded
+        timeSlider.Value = 0
+        timeSlider.Minimum = 0
         volumeSlider.Value = 0.5
         speedSlider.Value = 1
     End Sub
@@ -127,7 +129,6 @@ Class MainWindow
     Private Sub mediaOpened(ByVal sender As Object, ByVal args As RoutedEventArgs)
         If mediaScreen.NaturalDuration.HasTimeSpan Then
             panel.Opacity = 0.7
-            timeSlider.Minimum = 0
             timeSliderCurrentTime.Content = "00:00:00"
 
             timeSlider.Maximum = mediaScreen.NaturalDuration.TimeSpan.TotalSeconds
@@ -153,16 +154,29 @@ Class MainWindow
         StopIt()
     End Sub
 
-    'Private Sub timeSlider_ValueChanged(ByVal sender As Object, e As RoutedEventArgs) Handles timeSlider.ManipulationStarted
-    '    mediaScreen.Position = TimeSpan.FromSeconds(timeSlider.Value)
-    '    Console.Write("yo")
-    '    timeSliderCurrentTime.Content = TimeSpan.FromSeconds(timeSlider.Value).ToString("hh\:mm\:ss")
-    'End Sub
+    Private Sub UpdateTimeSlider()
+        mediaScreen.Position = TimeSpan.FromSeconds(timeSlider.Value)
+        timeSliderCurrentTime.Content = TimeSpan.FromSeconds(timeSlider.Value).ToString("hh\:mm\:ss")
+    End Sub
+
+    Private Sub timeSlider_DragStarted(ByVal sender As Object, e As RoutedEventArgs)
+        If mediaScreen.Source <> Nothing Then
+            _isDraggingSlider = True
+            UpdateTimeSlider()
+        End If
+    End Sub
+
+    Private Sub timeSlider_DragCompleted(ByVal sender As Object, e As RoutedEventArgs)
+        If mediaScreen.Source <> Nothing Then
+            _isDraggingSlider = False
+            UpdateTimeSlider()
+        End If
+    End Sub
 
     Private Sub timeSlider_ValueChanged(ByVal sender As Object, e As RoutedPropertyChangedEventArgs(Of Double)) Handles timeSlider.ValueChanged
-        mediaScreen.Position = TimeSpan.FromSeconds(timeSlider.Value)
-        Console.Write("yo")
-        timeSliderCurrentTime.Content = TimeSpan.FromSeconds(timeSlider.Value).ToString("hh\:mm\:ss")
+        If mediaScreen.Source <> Nothing AndAlso Not _isDraggingSlider Then
+            UpdateTimeSlider()
+        End If
     End Sub
 
     Private Sub volumeSlider_ValueChanged(ByVal sender As Object, e As RoutedPropertyChangedEventArgs(Of Double)) Handles volumeSlider.ValueChanged
