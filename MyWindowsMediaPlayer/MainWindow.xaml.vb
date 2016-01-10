@@ -300,6 +300,20 @@ Class MainWindow
         End If
     End Sub
 
+    Private Sub fullScreenButton_Click(ByVal sender As Object, e As RoutedEventArgs) Handles fullScreenButton.Click
+        If (WindowStyle = System.Windows.WindowStyle.None) Then
+            WindowState = WindowState.Normal
+            WindowStyle = System.Windows.WindowStyle.SingleBorderWindow
+            playListPanel.Width = New GridLength(320)
+            menuBar.Height = New GridLength(24)
+        Else
+            WindowState = WindowState.Maximized
+            WindowStyle = System.Windows.WindowStyle.None
+            playListPanel.Width = New GridLength(0)
+            menuBar.Height = New GridLength(0)
+        End If
+    End Sub
+
     Private Sub selectionMoveDown_Click(sender As Object, e As RoutedEventArgs) Handles selectionMoveDown.Click
         _playlist.Move(list.SelectedIndex, list.SelectedIndex + 1)
     End Sub

@@ -5,10 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MyWindowsMediaPlayer"
         mc:Ignorable="d"
-        Title="MainWindow" Height="672" Width="1054">
+        Title="My Window Media Player" Height="672" Width="1054">
     <Grid Margin="0">
         <Grid.RowDefinitions>
-            <RowDefinition Height="24" />
+            <RowDefinition Height="24"  x:Name="menuBar"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <DockPanel Grid.Row="0">
@@ -31,7 +31,7 @@
         <DockPanel Grid.Row="1">
             <Grid>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="305" />
+                    <ColumnDefinition Width="330" x:Name="playListPanel"/>
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
                 <DockPanel Grid.Column="0">
@@ -118,6 +118,9 @@
                                 </Button>
                                 <Button x:Name="nextButton" HorizontalAlignment="Left" Margin="6,0,0,0" VerticalAlignment="Center">
                                     <Image Source="Resources/next.png"/>
+                                </Button>
+                                <Button x:Name="fullScreenButton" HorizontalAlignment="Left" Margin="6,0,0,0" VerticalAlignment="Center">
+                                    <Image Source="Resources/fullscreen.png"/>
                                 </Button>
                                 <Slider x:Name="speedSlider" Margin="8,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" MinWidth="75" Maximum="2" LargeChange="0.25"/>
                                 <Label x:Name="speed" HorizontalAlignment="Center" Foreground="White"/>

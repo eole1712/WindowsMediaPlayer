@@ -157,5 +157,8 @@
     <Resource Include="Resources\selectionmovedown.png" />
     <Resource Include="Resources\selectionmoveup.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\fullscreen.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
 </Project>
