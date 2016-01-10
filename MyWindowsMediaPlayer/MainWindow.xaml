@@ -40,7 +40,7 @@
                         </Grid.RowDefinitions>
                         <DockPanel Grid.Row="0">
                             <Label Content="Filtres: " HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                            <StackPanel HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,0,0,0">
+                            <StackPanel HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,3,0,0">
                                 <ComboBox Width="120">
                                     <ComboBoxItem Content="Playlist"/>
                                     <ComboBoxItem Content="Video"/>
@@ -48,6 +48,12 @@
                                     <ComboBoxItem Content="Musique"/>
                                 </ComboBox>
                             </StackPanel>
+                            <Button x:Name="selectionMoveDown" Margin="14,3,0,3" HorizontalAlignment="Left">
+                                <Image Source="Resources/selectionmovedown.png"/>
+                            </Button>
+                            <Button x:Name="selectionMoveUp" Margin="5,3,0,3" HorizontalAlignment="Left">
+                                <Image Source="Resources/selectionmoveup.png"/>
+                            </Button>
                         </DockPanel>
                         <DockPanel Grid.Row="1">
                             <ListView x:Name="list" Margin="2"  ItemsSource="{Binding Path=Playlist.Playlist}">

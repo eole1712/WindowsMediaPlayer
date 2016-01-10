@@ -225,6 +225,7 @@ Class MainWindow
             _playlist.StopIt()
         End If
     End Sub
+
     ' *** END mediaScreen ***
 
     ' *** BEGIN File Buttons ***
@@ -278,6 +279,15 @@ Class MainWindow
             Play()
         End If
     End Sub
+
+    Private Sub selectionMoveDown_Click(sender As Object, e As RoutedEventArgs) Handles selectionMoveDown.Click
+        _playlist.Move(list.SelectedIndex, list.SelectedIndex + 1)
+    End Sub
+
+    Private Sub selectionMoveUp_Click(sender As Object, e As RoutedEventArgs) Handles selectionMoveUp.Click
+        _playlist.Move(list.SelectedIndex, list.SelectedIndex - 1)
+    End Sub
+
     ' *** END Media Buttons ***
 
     ' *** BEGIN Sliders ***

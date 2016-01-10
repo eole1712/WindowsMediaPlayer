@@ -153,5 +153,9 @@
   <ItemGroup>
     <Resource Include="Resources\stop.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\selectionmovedown.png" />
+    <Resource Include="Resources\selectionmoveup.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
 </Project>
