@@ -72,6 +72,12 @@ Class MainWindow
                 mediaScreen.Source = Nothing
                 MsgBox("Le fichier sélectionné n'est pas lisible par le lecteur.")
             End Try
+        Else
+            Dim toPlay As String = _playlist.Play()
+            If toPlay <> "" Then
+                mediaScreen.Source = New Uri(toPlay)
+                Play()
+            End If
         End If
     End Sub
 
@@ -94,6 +100,7 @@ Class MainWindow
 
     Private Sub StopClose()
         StopIt()
+        _playlist.StopIt()
         mediaScreen.Source = Nothing
         timeSlider.Maximum = 1
         timeSliderMaxTime.Content = "00:00:00"
@@ -210,6 +217,13 @@ Class MainWindow
 
     Private Sub mediaScreen_MediaEnded(ByVal sender As Object, ByVal args As RoutedEventArgs) Handles mediaScreen.MediaEnded
         StopIt()
+        Dim toPlay As String = _playlist.PlayNext()
+        If toPlay <> "" Then
+            mediaScreen.Source = New Uri(toPlay)
+            Play()
+        Else
+            _playlist.StopIt()
+        End If
     End Sub
     ' *** END mediaScreen ***
 
@@ -220,6 +234,14 @@ Class MainWindow
 
     Private Sub addToPlaylistButton_Click(sender As Object, e As RoutedEventArgs) Handles addToPlaylistButton.Click
         OpenFile(False)
+    End Sub
+
+    Private Sub playPlaylistButton_Click(sender As Object, e As RoutedEventArgs) Handles playPlaylistButton.Click
+        Dim toPlay As String = _playlist.Play()
+        If toPlay <> "" Then
+            mediaScreen.Source = New Uri(toPlay)
+            Play()
+        End If
     End Sub
 
     Private Sub closeButton_Click(sender As Object, e As RoutedEventArgs) Handles closeButton.Click
@@ -238,6 +260,23 @@ Class MainWindow
 
     Private Sub stopButton_Click(ByVal sender As Object, e As RoutedEventArgs) Handles stopButton.Click
         StopIt()
+        _playlist.StopIt()
+    End Sub
+
+    Private Sub nextButton_Click(ByVal sender As Object, e As RoutedEventArgs) Handles nextButton.Click
+        Dim toPlay As String = _playlist.PlayNext()
+        If toPlay <> "" Then
+            mediaScreen.Source = New Uri(toPlay)
+            Play()
+        End If
+    End Sub
+
+    Private Sub prevButton_Click(ByVal sender As Object, e As RoutedEventArgs) Handles prevButton.Click
+        Dim toPlay As String = _playlist.PlayPrev()
+        If toPlay <> "" Then
+            mediaScreen.Source = New Uri(toPlay)
+            Play()
+        End If
     End Sub
     ' *** END Media Buttons ***
 
@@ -279,10 +318,8 @@ Class MainWindow
 
     ' *** BEGIN _tmpMedia ***
     Private Sub _tmpMedia_MediaOpened(ByVal sender As Object, e As EventArgs) Handles _tmpMedia.MediaOpened
-        Dim tmpName As String() = Split(_tmpMedia.Source.ToString, "/")
-        Dim PrettyName As String = tmpName(tmpName.Length - 1)
         If _tmpMedia.NaturalDuration.HasTimeSpan Then
-            _playlist.Add(New PlaylistItem(PrettyName, _tmpMedia.NaturalDuration.TimeSpan))
+            _playlist.Add(New PlaylistItem(_tmpMedia.Source.ToString, _tmpMedia.NaturalDuration.TimeSpan))
         Else
             MsgBox("Cet élément ne peut pas être ajouté à la liste de lecture.")
         End If

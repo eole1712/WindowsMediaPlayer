@@ -16,6 +16,7 @@
                 <MenuItem Header="_Fichier">
                     <MenuItem x:Name="openButton" Header="_Ouvrir"/>
                     <MenuItem x:Name="addToPlaylistButton" Header="_Ajouter à la liste de lecture"/>
+                    <MenuItem x:Name="playPlaylistButton" Header="_Jouer la playlist"/>
                     <MenuItem x:Name="closeButton" Header="_Fermer"/>
                     <MenuItem x:Name="recentFileButton" Header="_Fichier récents"/>
                     <Separator />
@@ -101,13 +102,13 @@
                                 <Button x:Name="playButton" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Center">
                                     <Image Source="Resources/play.png"/>
                                 </Button>
-                                <Button x:Name="nextButton" HorizontalAlignment="Left" Margin="14,0,0,0" VerticalAlignment="Center">
+                                <Button x:Name="prevButton" HorizontalAlignment="Left" Margin="14,0,0,0" VerticalAlignment="Center">
                                     <Image Source="Resources/prev.png"/>
                                 </Button>
                                 <Button x:Name="stopButton" HorizontalAlignment="Left" Margin="6,0,0,0" VerticalAlignment="Center">
                                     <Image Source="Resources/stop.png"/>
                                 </Button>
-                                <Button x:Name="prevButton" HorizontalAlignment="Left" Margin="6,0,0,0" VerticalAlignment="Center">
+                                <Button x:Name="nextButton" HorizontalAlignment="Left" Margin="6,0,0,0" VerticalAlignment="Center">
                                     <Image Source="Resources/next.png"/>
                                 </Button>
                                 <Slider x:Name="speedSlider" Margin="8,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" MinWidth="75" Maximum="2" LargeChange="0.25"/>

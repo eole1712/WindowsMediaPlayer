@@ -1,9 +1,19 @@
 ﻿Public Class PlaylistItem
+    Private Property _path As String
     Private Property _title As String
     Private Property _duration As TimeSpan
     Private Property _prettyDuration As String
 
     ' ************* BEGIN Getters/Setters *************
+
+    Public Property Path As String
+        Get
+            Return _path
+        End Get
+        Protected Set(value As String)
+            _path = value
+        End Set
+    End Property
 
     Public Property Title As String
         Get
@@ -34,8 +44,12 @@
 
     ' ************* END Getters/Setters *************
 
-    Public Sub New(ByVal Title As String, ByVal Duration As TimeSpan)
-        _title = Title
+    Public Sub New(ByVal Path As String, ByVal Duration As TimeSpan)
+        Dim tmpName As String() = Split(Path, "/")
+        Dim PrettyName As String = tmpName(tmpName.Length - 1)
+
+        _path = Path
+        _title = PrettyName
         _duration = Duration
         _prettyDuration = Duration.ToString("hh\:mm\:ss")
     End Sub
