@@ -68,7 +68,7 @@ Public Class Playlist
         _playlist.Add(Item)
     End Sub
 
-    Public Function Remove(ByVal Index As Integer) As Boolean
+    Public Function Remove(Index As Integer) As Boolean
         _playlist.Remove(_playlist.ElementAt(Index))
         If IndexIsPlaying = Index Then
             If Not (IndexIsPlaying - 1 < 0) Then
@@ -82,6 +82,15 @@ Public Class Playlist
         End If
         Return False
     End Function
+
+    Public Sub Move(IndexSrc As Integer, IndexDest As Integer)
+        If IndexDest >= 0 AndAlso IndexDest < Playlist.Count Then
+            _playlist.Move(IndexSrc, IndexDest)
+            If IndexIsPlaying = IndexSrc Then
+                IndexIsPlaying = IndexDest
+            End If
+        End If
+    End Sub
 
     Public Function Play() As String
         If IsEmpty() Then
