@@ -125,7 +125,7 @@ Class MainWindow
 
         reader.Close()
         _playlist.Playlist.Clear()
-        For i = 0 To xmlPlayList.Count
+        For i = 0 To xmlPlayList.Count - 1
             _playlist.Add(xmlPlayList(i))
         Next
     End Sub

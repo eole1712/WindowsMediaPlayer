@@ -15,14 +15,17 @@
             <Menu DockPanel.Dock="Top">
                 <MenuItem Header="_Fichier">
                     <MenuItem x:Name="openButton" Header="_Ouvrir"/>
-                    <MenuItem x:Name="addToPlaylistButton" Header="_Ajouter à la liste de lecture"/>
-                    <MenuItem x:Name="openPlaylistButton" Header="_Ouvrir une liste de lecture"/>
-                    <MenuItem x:Name="playPlaylistButton" Header="_Jouer la liste de lecture"/>
-                    <MenuItem x:Name="savePlaylistButton" Header="_Enregistrer la liste de lecture"/>
                     <MenuItem x:Name="recentFileButton" Header="_Fichier récents"/>
                     <MenuItem x:Name="closeButton" Header="_Fermer"/>
                     <Separator />
                     <MenuItem x:Name="quitButton" Header="_Quitter"/>
+                </MenuItem>
+                <MenuItem Header="_List de lecture">
+                    <MenuItem x:Name="openPlaylistButton" Header="_Ouvrir"/>
+                    <MenuItem x:Name="addToPlaylistButton" Header="_Ajouter un fichier"/>
+                    <MenuItem x:Name="playPlaylistButton" Header="_Jouer"/>
+                    <MenuItem x:Name="savePlaylistButton" Header="_Enregistrer"/>
+                    <MenuItem x:Name="closePlayListButton" Header="_Fermer"/>
                 </MenuItem>
             </Menu>
             <StackPanel>
