@@ -14,6 +14,9 @@ Public Class Playlist
         End Get
         Protected Set(value As ObservableCollection(Of PlaylistItem))
             _playlist = value
+            _indexIsPlaying = Nothing
+            _titleIsPlaying = ""
+            _prettyDurationIsPlaying = ""
         End Set
     End Property
 

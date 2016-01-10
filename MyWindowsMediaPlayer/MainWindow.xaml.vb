@@ -1,6 +1,8 @@
 ﻿Imports System.Windows.Forms
 Imports System.Windows.Threading
-Imports System.Collections.ObjectModel
+Imports System.Xml
+Imports System.Xml.Serialization
+Imports System.IO
 
 Class MainWindow
 
@@ -95,6 +97,21 @@ Class MainWindow
         mediaScreen.Source = Nothing
         timeSlider.Maximum = 1
         timeSliderMaxTime.Content = "00:00:00"
+    End Sub
+
+    Private Sub Serialize()
+        Dim xmlPlayList(_playlist.Playlist.Count()) As PlaylistItem
+        Dim serializer As New XmlSerializer(GetType(PlaylistItem()))
+        Dim writer As New StreamWriter("playListHistory.xml")
+        _playlist.Playlist.CopyTo(xmlPlayList, 0)
+        serializer.Serialize(writer, xmlPlayList)
+        writer.Flush()
+        writer.Close()
+    End Sub
+
+    Private Sub Unserialize()
+
+        '_playlist.Playlist = objet désérialisé
     End Sub
 
     ' ************* END Actions *************
