@@ -96,19 +96,19 @@
                             </DockPanel>
                             <DockPanel Grid.Row="2">
                                 <Button x:Name="pauseButton" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Center" Visibility="Collapsed">
-                                    <Image Source="pack://siteoforigin:,,,/Resources/pause.png"/>
+                                    <Image Source="Resources/pause.png"/>
                                 </Button>
                                 <Button x:Name="playButton" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Center">
-                                    <Image Source="pack://siteoforigin:,,,/Resources/play.png"/>
+                                    <Image Source="Resources/play.png"/>
                                 </Button>
                                 <Button x:Name="nextButton" HorizontalAlignment="Left" Margin="14,0,0,0" VerticalAlignment="Center">
-                                    <Image Source="pack://siteoforigin:,,,/Resources/prev.png"/>
+                                    <Image Source="Resources/prev.png"/>
                                 </Button>
                                 <Button x:Name="stopButton" HorizontalAlignment="Left" Margin="6,0,0,0" VerticalAlignment="Center">
-                                    <Image Source="pack://siteoforigin:,,,/Resources/stop.png"/>
+                                    <Image Source="Resources/stop.png"/>
                                 </Button>
                                 <Button x:Name="prevButton" HorizontalAlignment="Left" Margin="6,0,0,0" VerticalAlignment="Center">
-                                    <Image Source="pack://siteoforigin:,,,/Resources/next.png"/>
+                                    <Image Source="Resources/next.png"/>
                                 </Button>
                                 <Slider x:Name="speedSlider" Margin="8,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" MinWidth="75" Maximum="2" LargeChange="0.25"/>
                                 <Label x:Name="speed" HorizontalAlignment="Center" Foreground="White"/>

@@ -139,22 +139,19 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Play.bmp" />
+    <Resource Include="Resources\next.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Pause.bmp" />
+    <Resource Include="Resources\pause.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\next.jpg" />
+    <Resource Include="Resources\play.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\pause.jpg" />
+    <Resource Include="Resources\prev.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\play.jpg" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\prev.jpg" />
+    <Resource Include="Resources\stop.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
 </Project>
