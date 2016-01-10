@@ -5,17 +5,28 @@ Imports System.Collections.ObjectModel
 Class MainWindow
 
     Private Property _isDraggingSlider As Boolean = False
-    Public Property _playlist As ObservableCollection(Of PlaylistItem) = New ObservableCollection(Of PlaylistItem)()
-    Private WithEvents _tmpMedia As MediaPlayer = New MediaPlayer
-    Private WithEvents _timer As DispatcherTimer
+    Private Property _playlist As Playlist = New Playlist()
+    Private WithEvents _tmpMedia As MediaPlayer = New MediaPlayer()
+    Private WithEvents _timer As DispatcherTimer = New DispatcherTimer()
 
+    ' ************* BEGIN Getters/Setters *************
+
+    Public Property Playlist As Playlist
+        Get
+            Return _playlist
+        End Get
+        Protected Set(value As Playlist)
+            _playlist = value
+        End Set
+    End Property
+
+    ' ************* END Getters/Setters *************
 
     Sub New()
         ' Cet appel est requis par le concepteur.
         InitializeComponent()
 
         ' Ajoutez une initialisation quelconque après l'appel InitializeComponent().
-        _timer = New DispatcherTimer()
         _timer.Interval = TimeSpan.FromSeconds(1)
 
         DataContext = Me
@@ -29,7 +40,7 @@ Class MainWindow
 
     ' ************* BEGIN Actions *************
 
-    Sub OpenFile(ByVal PlayNow As Boolean)
+    Private Sub OpenFile(ByVal PlayNow As Boolean)
         Dim fd As OpenFileDialog = New OpenFileDialog()
 
         fd.Title = "Choisissez un fichier à ouvrir..."
@@ -48,7 +59,7 @@ Class MainWindow
         End If
     End Sub
 
-    Sub Play()
+    Private Sub Play()
         If mediaScreen.Source <> Nothing Then
             HidePlayButton()
             _timer.Start()
@@ -62,7 +73,7 @@ Class MainWindow
         End If
     End Sub
 
-    Sub Pause()
+    Private Sub Pause()
         If mediaScreen.CanPause Then
             ShowPlayButton()
             _timer.Stop()
@@ -70,7 +81,7 @@ Class MainWindow
         End If
     End Sub
 
-    Sub StopIt()
+    Private Sub StopIt()
         If mediaScreen.Source <> Nothing Then
             ShowPlayButton()
             _timer.Stop()
@@ -79,7 +90,7 @@ Class MainWindow
         End If
     End Sub
 
-    Sub StopClose()
+    Private Sub StopClose()
         StopIt()
         mediaScreen.Source = Nothing
         timeSlider.Maximum = 1
@@ -245,9 +256,7 @@ Class MainWindow
         Dim tmpName As String() = Split(_tmpMedia.Source.ToString, "/")
         Dim PrettyName As String = tmpName(tmpName.Length - 1)
         If _tmpMedia.NaturalDuration.HasTimeSpan Then
-            _playlist.Add(New PlaylistItem() With {
-                  .titre = PrettyName,
-                  .duree = _tmpMedia.NaturalDuration.TimeSpan.ToString("hh\:mm\:ss")})
+            _playlist.Add(New PlaylistItem(PrettyName, _tmpMedia.NaturalDuration.TimeSpan))
         Else
             MsgBox("Cet élément ne peut pas être ajouté à la liste de lecture.")
         End If
