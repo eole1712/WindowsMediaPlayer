@@ -69,6 +69,9 @@ Public Class Playlist
     End Sub
 
     Public Function Remove(Index As Integer) As Boolean
+        If Index < 0 OrElse Index >= Playlist.Count Then
+            Return False
+        End If
         _playlist.Remove(_playlist.ElementAt(Index))
         If IndexIsPlaying = Index Then
             If Not (IndexIsPlaying - 1 < 0) Then

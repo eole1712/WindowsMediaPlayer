@@ -10,7 +10,7 @@
         Get
             Return _path
         End Get
-        Protected Set(value As String)
+        Set(value As String)
             _path = value
         End Set
     End Property
@@ -19,7 +19,7 @@
         Get
             Return _title
         End Get
-        Protected Set(value As String)
+        Set(value As String)
             _title = value
         End Set
     End Property
@@ -28,7 +28,7 @@
         Get
             Return _duration
         End Get
-        Protected Set(value As TimeSpan)
+        Set(value As TimeSpan)
             _duration = value
         End Set
     End Property
@@ -37,14 +37,18 @@
         Get
             Return _prettyDuration
         End Get
-        Protected Set(value As String)
+        Set(value As String)
             _prettyDuration = value
         End Set
     End Property
 
     ' ************* END Getters/Setters *************
 
-    Public Sub New(ByVal Path As String, ByVal Duration As TimeSpan)
+    Sub New()
+
+    End Sub
+
+    Sub New(ByVal Path As String, ByVal Duration As TimeSpan)
         Dim tmpName As String() = Split(Path, "/")
         Dim PrettyName As String = tmpName(tmpName.Length - 1)
 

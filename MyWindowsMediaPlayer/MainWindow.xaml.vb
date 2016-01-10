@@ -46,7 +46,7 @@ Class MainWindow
         Dim fd As OpenFileDialog = New OpenFileDialog()
 
         fd.Title = "Choisissez un fichier à ouvrir..."
-        fd.InitialDirectory = "C:/"
+        fd.InitialDirectory = ""
         fd.Filter = "Media files (*.mp3;*.mpg;*.mpeg)|*.mp3;*.mpg;*.mpeg|All files (*.*)|*.*"
         fd.FilterIndex = 2
         fd.RestoreDirectory = True
@@ -106,27 +106,27 @@ Class MainWindow
         timeSliderMaxTime.Content = "00:00:00"
     End Sub
 
-    Private Sub Serialize()
+    Private Sub Serialize(ByVal Path As String)
         Dim xmlPlayList(_playlist.Playlist.Count()) As PlaylistItem
         Dim serializer As New XmlSerializer(GetType(PlaylistItem()))
-        Dim writer As New StreamWriter("playListHistory.xml")
+        Dim writer As New StreamWriter(Path)
+
         _playlist.Playlist.CopyTo(xmlPlayList, 0)
         serializer.Serialize(writer, xmlPlayList)
         writer.Flush()
         writer.Close()
+        MsgBox("La liste de lecture a bien été enregistrée.")
     End Sub
 
-    Public Sub Unserialize(ByVal FileName As String)
+    Public Sub Unserialize(ByVal Path As String)
         Dim serializer As New XmlSerializer(GetType(PlaylistItem()))
-        'AddHandler serializer.UnknownNode, AddressOf serializer_UnknownNode
-        'AddHandler serializer.UnknownAttribute, AddressOf serializer_UnknownAttribute
-        Dim reader As New FileStream(FileName, FileMode.Open)
+        Dim reader As New FileStream(Path, FileMode.Open)
         Dim xmlPlayList() As PlaylistItem = CType(serializer.Deserialize(reader), PlaylistItem())
+
         reader.Close()
         _playlist.Playlist.Clear()
         For i = 0 To xmlPlayList.Count
             _playlist.Add(xmlPlayList(i))
-            '_playlist.Playlist = objet désérialisé
         Next
     End Sub
 
@@ -242,7 +242,7 @@ Class MainWindow
 
         fd.Title = "Choisissez une playlist à ouvrir..."
         fd.InitialDirectory = ""
-        fd.Filter = "*.xml"
+        fd.Filter = "XML files (*.xml)|*.xml"
         fd.FilterIndex = 2
         fd.RestoreDirectory = True
 
@@ -260,9 +260,17 @@ Class MainWindow
     End Sub
 
     Private Sub savePlaylistButton_Click(sender As Object, e As RoutedEventArgs) Handles savePlaylistButton.Click
-        Dim fd As OpenFileDialog = New OpenFileDialog()
+        Dim fd As SaveFileDialog = New SaveFileDialog()
 
-        Serialize()
+        fd.Title = "Choisissez où enregistrer votre liste de lecture..."
+        fd.InitialDirectory = ""
+        fd.Filter = "XML files (*.xml)|*.xml"
+        fd.FilterIndex = 2
+        fd.RestoreDirectory = True
+
+        If fd.ShowDialog() = Forms.DialogResult.OK Then
+            Serialize(fd.FileName)
+        End If
     End Sub
 
     Private Sub closeButton_Click(sender As Object, e As RoutedEventArgs) Handles closeButton.Click
