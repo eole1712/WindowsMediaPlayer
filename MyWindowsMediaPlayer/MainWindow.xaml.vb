@@ -22,9 +22,10 @@ End Class
 Class MainWindow
 
     Private Property _isDraggingSlider As Boolean = False
-    Public Property playList As ObservableCollection(Of playListItem)
+    Public Property _playlist As ObservableCollection(Of playListItem) = New ObservableCollection(Of playListItem)()
+    Private WithEvents _tmpMedia As MediaPlayer = New MediaPlayer
     Private WithEvents _timer As DispatcherTimer
-    Private Property _list As List(Of OpenFileDialog)
+
 
     Sub New()
         ' Cet appel est requis par le concepteur.
@@ -34,11 +35,8 @@ Class MainWindow
         _timer = New DispatcherTimer()
         _timer.Interval = TimeSpan.FromSeconds(1)
 
-        playList = New ObservableCollection(Of playListItem)()
+        DataContext = Me
 
-        playList.Add(New playListItem() With {
-                          .titre = "Film truc",
-                          .duree = "00:00:00"})
         'timeSliderCurrentTime.Content.SetBinding(TimeSpan.FromSeconds(timeSlider.Value).ToString("hh\: mm\: ss"), "timeSliderCurrentTime")
         'timeSliderCurrentTime.Content.SetBinding(_txt, New Forms.Binding("timeSliderCurrentTime", _txt, timeSliderCurrentTime.Content))
 
@@ -76,10 +74,23 @@ Class MainWindow
         HidePanel()
     End Sub
 
-    Private Sub PlayerCanvas_LeftClick(ByVal sender As Object, e As EventArgs) Handles PlayerCanvas.MouseLeftButtonUp
+    Private Sub PlayerCanvas_LeftClick(ByVal sender As Object, e As EventArgs) Handles PlayerCanvas.MouseLeftButtonDown
         If mediaScreen.Source = Nothing Then
             OpenFile(True)
         End If
+    End Sub
+
+    Private Sub _tmpMedia_MediaOpened(ByVal sender As Object, e As EventArgs) Handles _tmpMedia.MediaOpened
+        Dim tmpName As String() = Split(_tmpMedia.Source.ToString, "/")
+        Dim PrettyName As String = tmpName(tmpName.Length - 1)
+        If _tmpMedia.NaturalDuration.HasTimeSpan Then
+            _playlist.Add(New playListItem() With {
+                  .titre = PrettyName,
+                  .duree = _tmpMedia.NaturalDuration.TimeSpan.ToString("hh\:mm\:ss")})
+        Else
+            MsgBox("Cet élément ne peut pas être ajouté à la liste de lecture.")
+        End If
+        _tmpMedia.Close()
     End Sub
 
     Sub OpenFile(ByVal PlayNow As Boolean)
@@ -96,7 +107,7 @@ Class MainWindow
                 mediaScreen.Source = New Uri(fd.FileName)
                 Play()
             Else
-                _list.Add(fd)
+                _tmpMedia.Open(New Uri(fd.FileName))
             End If
         End If
     End Sub
@@ -146,7 +157,7 @@ Class MainWindow
         OpenFile(True)
     End Sub
 
-    Private Sub addToPlaylist_Click(sender As Object, e As RoutedEventArgs) Handles addToPlaylist.Click
+    Private Sub addToPlaylistButton_Click(sender As Object, e As RoutedEventArgs) Handles addToPlaylistButton.Click
         OpenFile(False)
     End Sub
 
