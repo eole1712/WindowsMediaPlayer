@@ -38,6 +38,14 @@ Class MainWindow
         speedSlider.Value = 1
     End Sub
 
+    Private Sub ShowPanel()
+        panel.Opacity = 0.7
+    End Sub
+
+    Private Sub HidePanel()
+        panel.Opacity = 0
+    End Sub
+
     Private Sub PlayerCanvas_MouseWheel(ByVal sender As Object, e As MouseWheelEventArgs) Handles PlayerCanvas.MouseWheel
         Dim Diff As Double = IIf((e.Delta > 0), 0.1, -0.1)
         If Not (volumeSlider.Value + Diff > volumeSlider.Maximum OrElse volumeSlider.Value + Diff < volumeSlider.Minimum) Then
@@ -46,11 +54,11 @@ Class MainWindow
     End Sub
 
     Private Sub PlayerCanvas_MouseEnter(ByVal sender As Object, e As EventArgs) Handles PlayerCanvas.MouseEnter
-        panel.Opacity = 0.7
+        ShowPanel()
     End Sub
 
     Private Sub PlayerCanvas_MouseLeave(ByVal sender As Object, e As EventArgs) Handles PlayerCanvas.MouseLeave
-        panel.Opacity = 0
+        HidePanel()
     End Sub
 
     Private Sub PlayerCanvas_LeftClick(ByVal sender As Object, e As EventArgs) Handles PlayerCanvas.MouseLeftButtonUp
@@ -82,10 +90,19 @@ Class MainWindow
         End If
     End Sub
 
+    Private Sub ShowPlayButton()
+        pauseButton.Visibility = Visibility.Collapsed
+        playButton.Visibility = Visibility.Visible
+    End Sub
+
+    Private Sub HidePlayButton()
+        playButton.Visibility = Visibility.Collapsed
+        pauseButton.Visibility = Visibility.Visible
+    End Sub
+
     Sub Play()
         If mediaScreen.Source <> Nothing Then
-            playButton.Visibility = Visibility.Collapsed
-            pauseButton.Visibility = Visibility.Visible
+            HidePlayButton()
             _timer.Start()
             Try
                 mediaScreen.Play()
@@ -99,8 +116,7 @@ Class MainWindow
 
     Sub Pause()
         If mediaScreen.CanPause Then
-            pauseButton.Visibility = Visibility.Collapsed
-            playButton.Visibility = Visibility.Visible
+            ShowPlayButton()
             _timer.Stop()
             mediaScreen.Pause()
         End If
@@ -108,11 +124,9 @@ Class MainWindow
 
     Sub StopIt()
         If mediaScreen.Source <> Nothing Then
-            pauseButton.Visibility = Visibility.Collapsed
-            playButton.Visibility = Visibility.Visible
+            ShowPlayButton()
             _timer.Stop()
             timeSlider.Value = 0
-            timeSliderCurrentTime.Content = "00:00:00"
             mediaScreen.Stop()
         End If
     End Sub
@@ -128,13 +142,13 @@ Class MainWindow
 
     Private Sub mediaOpened(ByVal sender As Object, ByVal args As RoutedEventArgs)
         If mediaScreen.NaturalDuration.HasTimeSpan Then
-            panel.Opacity = 0.7
+            ShowPanel()
             timeSliderCurrentTime.Content = "00:00:00"
 
             timeSlider.Maximum = mediaScreen.NaturalDuration.TimeSpan.TotalSeconds
             timeSliderMaxTime.Content = mediaScreen.NaturalDuration.TimeSpan.ToString("hh\:mm\:ss")
         Else
-            panel.Opacity = 0
+            HidePanel()
         End If
     End Sub
 
