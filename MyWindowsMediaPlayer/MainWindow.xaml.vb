@@ -314,6 +314,14 @@ Class MainWindow
         End If
     End Sub
 
+    Private Sub playListHideButton_Click(ByVal sender As Object, e As RoutedEventArgs) Handles playListHideButton.Click
+        If playListPanel.Width = New GridLength(0) Then
+            playListPanel.Width = New GridLength(320)
+        Else
+            playListPanel.Width = New GridLength(0)
+        End If
+    End Sub
+
     Private Sub selectionMoveDown_Click(sender As Object, e As RoutedEventArgs) Handles selectionMoveDown.Click
         _playlist.Move(list.SelectedIndex, list.SelectedIndex + 1)
     End Sub

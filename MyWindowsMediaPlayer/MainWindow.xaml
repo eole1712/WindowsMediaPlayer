@@ -75,13 +75,13 @@
                                       Width="{Binding ActualWidth, ElementName=PlayerCanvas}"
                                       Height="{Binding ActualHeight, ElementName=PlayerCanvas}"/>
                         <Image Canvas.ZIndex="1" x:Name="imageScreen" />
-                        <Grid x:Name="panel" Opacity="0" Canvas.ZIndex="2"
+                        <Grid x:Name="panel" Opacity="0.7" Canvas.ZIndex="2"
                               Width="{Binding ActualWidth, ElementName=PlayerCanvas}"
                               Height="{Binding ActualHeight, ElementName=PlayerCanvas}">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="*" />
                                 <RowDefinition Height="34"/>
-                                <RowDefinition Height="26" />
+                                <RowDefinition Height="28" />
                                 <RowDefinition Height="10" />
                             </Grid.RowDefinitions>
                             <DockPanel Grid.Row="0"/>
@@ -96,7 +96,7 @@
                                         <Label x:Name="timeSliderCurrentTime" Margin="10,4" Width="60" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White"/>
                                     </DockPanel>
                                     <DockPanel Grid.Column="1">
-                                        <Slider x:Name="timeSlider" Margin="0,6" MinWidth="00" LargeChange="10" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" SmallChange="1" Thumb.DragStarted="timeSlider_DragStarted" Thumb.DragCompleted="timeSlider_DragCompleted" Maximum="1"/>
+                                        <Slider x:Name="timeSlider" Margin="0,6" MinWidth="0" LargeChange="10" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" SmallChange="1" Thumb.DragStarted="timeSlider_DragStarted" Thumb.DragCompleted="timeSlider_DragCompleted" Maximum="1"/>
                                     </DockPanel>
                                     <DockPanel Grid.Column="2">
                                         <Label x:Name="timeSliderMaxTime" Margin="10,4" Width="60" VerticalAlignment="Center" Foreground="White" HorizontalAlignment="Center"/>
@@ -121,6 +121,9 @@
                                 </Button>
                                 <Button x:Name="fullScreenButton" HorizontalAlignment="Left" Margin="6,0,0,0" VerticalAlignment="Center">
                                     <Image Source="Resources/fullscreen.png"/>
+                                </Button>
+                                <Button x:Name="playListHideButton" HorizontalAlignment="Left" Margin="6,0,0,0" VerticalAlignment="Center">
+                                    <Image Source="Resources/playlisthide.png"/>
                                 </Button>
                                 <Slider x:Name="speedSlider" Margin="8,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" MinWidth="75" Maximum="2" LargeChange="0.25"/>
                                 <Label x:Name="speed" HorizontalAlignment="Center" Foreground="White"/>
