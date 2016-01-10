@@ -109,9 +109,18 @@ Class MainWindow
         writer.Close()
     End Sub
 
-    Private Sub Unserialize()
-
-        '_playlist.Playlist = objet désérialisé
+    Public Sub Unserialize()
+        Dim serializer As New XmlSerializer(GetType(PlaylistItem()))
+        'AddHandler serializer.UnknownNode, AddressOf serializer_UnknownNode
+        'AddHandler serializer.UnknownAttribute, AddressOf serializer_UnknownAttribute
+        Dim reader As New FileStream("playListHistory.xml", FileMode.Open)
+        Dim xmlPlayList() As PlaylistItem = CType(serializer.Deserialize(reader), PlaylistItem())
+        reader.Close()
+        _playlist.Playlist.Clear()
+        For i = 0 To xmlPlayList.Count
+            _playlist.Add(xmlPlayList(i))
+            '_playlist.Playlist = objet désérialisé
+        Next
     End Sub
 
     ' ************* END Actions *************
@@ -294,4 +303,10 @@ Class MainWindow
     ' *** END _timer ***
 
     ' ************* END Events Handling *************
+
+    Private Sub list_KeyUp(sender As Object, e As Input.KeyEventArgs) Handles list.KeyUp
+        If e.Key = Key.Delete Then
+            _playlist.Playlist.Remove(_playlist.Playlist.ElementAt(list.SelectedIndex))
+        End If
+    End Sub
 End Class
