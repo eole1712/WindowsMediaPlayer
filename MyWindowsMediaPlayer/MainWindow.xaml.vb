@@ -36,11 +36,11 @@ Class MainWindow
         speedSlider.Value = 1
     End Sub
 
-    Private Sub mediaScreen_GotFocus(ByVal sender As Object, e As EventArgs) Handles mediaScreen.GotFocus
+    Private Sub mediaScreen_GotFocus(ByVal sender As Object, e As EventArgs) Handles PlayerCanvas.MouseEnter
         panel.Opacity = 0.7
     End Sub
 
-    Private Sub mediaScreen_LostFocus(ByVal sender As Object, e As EventArgs) Handles mediaScreen.LostFocus
+    Private Sub mediaScreen_LostFocus(ByVal sender As Object, e As EventArgs) Handles PlayerCanvas.MouseLeave
         panel.Opacity = 0
     End Sub
 

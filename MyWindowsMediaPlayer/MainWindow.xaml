@@ -59,8 +59,8 @@
                         </DockPanel>
                     </Grid>
                 </DockPanel>
-                <DockPanel Grid.Column="1" Background="Black" OpacityMask="Black" MinWidth="360" MinHeight="240">
-                    <Canvas x:Name="PlayerCanvas">
+                <DockPanel x:Name="PlayerCanvas" Grid.Column="1" Background="Black" OpacityMask="Black" MinWidth="360" MinHeight="240">
+                    <Canvas>
                         <MediaElement Canvas.ZIndex="1" x:Name="mediaScreen" LoadedBehavior="Manual" UnloadedBehavior="Stop" MediaOpened="MediaOpened" MediaEnded="MediaEnded"
                                       Width="{Binding ActualWidth, ElementName=PlayerCanvas}"
                                       Height="{Binding ActualHeight, ElementName=PlayerCanvas}"/>
@@ -86,8 +86,8 @@
                                         <Label x:Name="timeSliderCurrentTime" Margin="10,4" Width="60" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White"/>
                                     </DockPanel>
                                     <DockPanel Grid.Column="1">
-                                        <Slider x:Name="timeSlider" Margin="0,6" MinWidth="00" LargeChange="10" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" SmallChange="1"/> 
-                                   </DockPanel>
+                                        <Slider x:Name="timeSlider" Margin="0,6" MinWidth="00" LargeChange="10" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" SmallChange="1"/>
+                                    </DockPanel>
                                     <DockPanel Grid.Column="2">
                                         <Label x:Name="timeSliderMaxTime" Margin="10,4" Width="60" VerticalAlignment="Center" Foreground="White" HorizontalAlignment="Center"/>
                                     </DockPanel>
