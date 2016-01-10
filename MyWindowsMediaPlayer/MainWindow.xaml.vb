@@ -334,6 +334,10 @@ Class MainWindow
                     End If
                 End If
             End If
+        ElseIf e.Key = Key.Z And list.SelectedIndex > 0 Then
+            _playlist.Playlist.Move(list.SelectedIndex, list.SelectedIndex - 1)
+        ElseIf e.Key = Key.S And list.SelectedIndex < _playlist.Playlist.Count - 1 Then
+            _playlist.Playlist.Move(list.SelectedIndex, list.SelectedIndex + 1)
         End If
     End Sub
     ' *** END list (Playlist) ***
