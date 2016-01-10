@@ -68,13 +68,30 @@ Public Class Playlist
         _playlist.Add(Item)
     End Sub
 
+    Public Function Remove(ByVal Index As Integer) As Boolean
+        _playlist.Remove(_playlist.ElementAt(Index))
+        If IndexIsPlaying = Index Then
+            If Not (IndexIsPlaying - 1 < 0) Then
+                IndexIsPlaying -= 1
+            ElseIf Not (IndexIsPlaying + 1 >= _playlist.Count) Then
+                IndexIsPlaying += 1
+            Else
+                IndexIsPlaying = Nothing
+            End If
+            Return True
+        End If
+        Return False
+    End Function
+
     Public Function Play() As String
-        If IsEmpty() OrElse IndexIsPlaying IsNot Nothing Then
+        If IsEmpty() Then
             Return ""
         Else
-            IndexIsPlaying = 0
+            If IndexIsPlaying Is Nothing Then
+                IndexIsPlaying = 0
+            End If
             Return PathIsPlaying
-        End If
+            End If
     End Function
 
     Public Sub StopIt()

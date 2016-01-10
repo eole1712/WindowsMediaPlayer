@@ -316,6 +316,28 @@ Class MainWindow
     End Sub
     ' *** END Sliders ***
 
+    ' *** BEGIN list (Playlist) ***
+    Private Sub list_KeyUp(sender As Object, e As Input.KeyEventArgs) Handles list.KeyUp
+        If e.Key = Key.Delete Then
+            If _playlist.Remove(list.SelectedIndex) Then
+                Dim toPlay As String = _playlist.PlayNext()
+                If toPlay <> "" Then
+                    mediaScreen.Source = New Uri(toPlay)
+                    Play()
+                Else
+                    toPlay = _playlist.Play()
+                    If toPlay <> "" Then
+                        mediaScreen.Source = New Uri(toPlay)
+                        Play()
+                    Else
+                        StopIt()
+                    End If
+                End If
+            End If
+        End If
+    End Sub
+    ' *** END list (Playlist) ***
+
     ' *** BEGIN _tmpMedia ***
     Private Sub _tmpMedia_MediaOpened(ByVal sender As Object, e As EventArgs) Handles _tmpMedia.MediaOpened
         If _tmpMedia.NaturalDuration.HasTimeSpan Then
@@ -340,10 +362,4 @@ Class MainWindow
     ' *** END _timer ***
 
     ' ************* END Events Handling *************
-
-    Private Sub list_KeyUp(sender As Object, e As Input.KeyEventArgs) Handles list.KeyUp
-        If e.Key = Key.Delete Then
-            _playlist.Playlist.Remove(_playlist.Playlist.ElementAt(list.SelectedIndex))
-        End If
-    End Sub
 End Class
