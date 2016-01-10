@@ -1,28 +1,11 @@
-﻿Imports System
-Imports System.Windows
-Imports System.Windows.Controls
-Imports System.Windows.Documents
-Imports System.Windows.Navigation
-Imports System.Windows.Shapes
-Imports System.Windows.Data
-Imports System.Windows.Media
-Imports System.Windows.Input
-Imports System.ComponentModel
-Imports System.Collections.ObjectModel
-
-Imports System.Windows.Forms
+﻿Imports System.Windows.Forms
 Imports System.Windows.Threading
-
-
-Public Class playListItem
-    Public Property titre As String
-    Public Property duree As String
-End Class
+Imports System.Collections.ObjectModel
 
 Class MainWindow
 
     Private Property _isDraggingSlider As Boolean = False
-    Public Property _playlist As ObservableCollection(Of playListItem) = New ObservableCollection(Of playListItem)()
+    Public Property _playlist As ObservableCollection(Of PlaylistItem) = New ObservableCollection(Of PlaylistItem)()
     Private WithEvents _tmpMedia As MediaPlayer = New MediaPlayer
     Private WithEvents _timer As DispatcherTimer
 
@@ -262,7 +245,7 @@ Class MainWindow
         Dim tmpName As String() = Split(_tmpMedia.Source.ToString, "/")
         Dim PrettyName As String = tmpName(tmpName.Length - 1)
         If _tmpMedia.NaturalDuration.HasTimeSpan Then
-            _playlist.Add(New playListItem() With {
+            _playlist.Add(New PlaylistItem() With {
                   .titre = PrettyName,
                   .duree = _tmpMedia.NaturalDuration.TimeSpan.ToString("hh\:mm\:ss")})
         Else
