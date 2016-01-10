@@ -233,9 +233,12 @@ Class MainWindow
         OpenFile(True)
     End Sub
 
-    Private Sub addToPlaylistButton_Click(sender As Object, e As RoutedEventArgs) Handles addToPlaylistButton.Click
-        OpenFile(False)
+    Private Sub closeButton_Click(sender As Object, e As RoutedEventArgs) Handles closeButton.Click
+        StopClose()
     End Sub
+    ' *** END File Buttons ***
+
+    ' *** BEGIN Playlist Buttons ***
 
     Private Sub openPlaylistButton_Click(sender As Object, e As RoutedEventArgs) Handles openPlaylistButton.Click
         Dim fd As OpenFileDialog = New OpenFileDialog()
@@ -249,6 +252,10 @@ Class MainWindow
         If fd.ShowDialog() = Forms.DialogResult.OK Then
             Unserialize(fd.FileName)
         End If
+    End Sub
+
+    Private Sub addToPlaylistButton_Click(sender As Object, e As RoutedEventArgs) Handles addToPlaylistButton.Click
+        OpenFile(False)
     End Sub
 
     Private Sub playPlaylistButton_Click(sender As Object, e As RoutedEventArgs) Handles playPlaylistButton.Click
@@ -273,10 +280,12 @@ Class MainWindow
         End If
     End Sub
 
-    Private Sub closeButton_Click(sender As Object, e As RoutedEventArgs) Handles closeButton.Click
+    Private Sub closePlaylistButton_Click(sender As Object, e As RoutedEventArgs) Handles closePlayListButton.Click
         StopClose()
+        _playlist.Clear()
     End Sub
-    ' *** END File Buttons ***
+
+    ' *** END Playlist Buttons ***
 
     ' *** BEGIN Media Buttons ***
     Private Sub playButton_Click(ByVal sender As Object, e As RoutedEventArgs) Handles playButton.Click

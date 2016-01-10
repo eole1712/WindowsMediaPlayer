@@ -15,12 +15,11 @@
             <Menu DockPanel.Dock="Top">
                 <MenuItem Header="_Fichier">
                     <MenuItem x:Name="openButton" Header="_Ouvrir"/>
-                    <MenuItem x:Name="recentFileButton" Header="_Fichier récents"/>
                     <MenuItem x:Name="closeButton" Header="_Fermer"/>
                     <Separator />
                     <MenuItem x:Name="quitButton" Header="_Quitter"/>
                 </MenuItem>
-                <MenuItem Header="_List de lecture">
+                <MenuItem Header="_Liste de lecture">
                     <MenuItem x:Name="openPlaylistButton" Header="_Ouvrir"/>
                     <MenuItem x:Name="addToPlaylistButton" Header="_Ajouter un fichier"/>
                     <MenuItem x:Name="playPlaylistButton" Header="_Jouer"/>

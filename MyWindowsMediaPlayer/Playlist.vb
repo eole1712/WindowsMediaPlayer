@@ -64,6 +64,13 @@ Public Class Playlist
         Return (_playlist.Count = 0)
     End Function
 
+    Public Sub Clear()
+        While Not IsEmpty()
+            Remove(0)
+        End While
+        IndexIsPlaying = Nothing
+    End Sub
+
     Public Sub Add(ByVal Item As PlaylistItem)
         _playlist.Add(Item)
     End Sub
