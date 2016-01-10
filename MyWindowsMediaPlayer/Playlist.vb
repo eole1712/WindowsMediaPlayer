@@ -164,7 +164,12 @@ Public Class Playlist
 
     Public Sub Move(IndexSrc As Integer, IndexDest As Integer)
         If IndexDest >= 0 AndAlso IndexDest < PlaylistFiltered.Count Then
-            PlaylistFiltered.Move(IndexSrc, IndexDest)
+            If _filter = PlaylistItem.TypeMedia.All Then
+                PlaylistAll.Move(IndexSrc, IndexDest)
+                PlaylistFiltered.Move(IndexSrc, IndexDest)
+            Else
+                PlaylistFiltered.Move(IndexSrc, IndexDest)
+            End If
             If IndexIsPlaying = IndexSrc Then
                 IndexIsPlaying = IndexDest
             End If
