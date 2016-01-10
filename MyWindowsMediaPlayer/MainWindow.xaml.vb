@@ -330,7 +330,7 @@ Class MainWindow
                         mediaScreen.Source = New Uri(toPlay)
                         Play()
                     Else
-                        StopIt()
+                        StopClose()
                     End If
                 End If
             End If
