@@ -62,7 +62,7 @@
                 </DockPanel>
                 <DockPanel x:Name="PlayerCanvas" Grid.Column="1" Background="Black" OpacityMask="Black" MinWidth="360" MinHeight="240">
                     <Canvas>
-                        <MediaElement Canvas.ZIndex="1" x:Name="mediaScreen" LoadedBehavior="Manual" UnloadedBehavior="Stop" MediaOpened="MediaOpened" MediaEnded="MediaEnded"
+                        <MediaElement Canvas.ZIndex="1" x:Name="mediaScreen" LoadedBehavior="Manual" UnloadedBehavior="Stop"
                                       Width="{Binding ActualWidth, ElementName=PlayerCanvas}"
                                       Height="{Binding ActualHeight, ElementName=PlayerCanvas}"/>
                         <Image Canvas.ZIndex="1" x:Name="imageScreen" />

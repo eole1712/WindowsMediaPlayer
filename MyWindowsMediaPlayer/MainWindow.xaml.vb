@@ -44,54 +44,7 @@ Class MainWindow
         'timeSliderCurrentTime.Content.SetBinding(TextBlock.TextProperty, myBinding)
     End Sub
 
-    Private Sub mediaScreen_Load(ByVal sender As Object, e As EventArgs) Handles mediaScreen.Loaded
-        timeSlider.Value = 0
-        timeSlider.Minimum = 0
-        volumeSlider.Value = 0.5
-        speedSlider.Value = 1
-    End Sub
-
-    Private Sub ShowPanel()
-        panel.Opacity = 0.7
-    End Sub
-
-    Private Sub HidePanel()
-        panel.Opacity = 0
-    End Sub
-
-    Private Sub PlayerCanvas_MouseWheel(ByVal sender As Object, e As MouseWheelEventArgs) Handles PlayerCanvas.MouseWheel
-        Dim Diff As Double = IIf((e.Delta > 0), 0.1, -0.1)
-        If Not (volumeSlider.Value + Diff > volumeSlider.Maximum OrElse volumeSlider.Value + Diff < volumeSlider.Minimum) Then
-            volumeSlider.Value = Math.Round(volumeSlider.Value + Diff, 1)
-        End If
-    End Sub
-
-    Private Sub PlayerCanvas_MouseEnter(ByVal sender As Object, e As EventArgs) Handles PlayerCanvas.MouseEnter
-        ShowPanel()
-    End Sub
-
-    Private Sub PlayerCanvas_MouseLeave(ByVal sender As Object, e As EventArgs) Handles PlayerCanvas.MouseLeave
-        HidePanel()
-    End Sub
-
-    Private Sub PlayerCanvas_LeftClick(ByVal sender As Object, e As EventArgs) Handles PlayerCanvas.MouseLeftButtonDown
-        If mediaScreen.Source = Nothing Then
-            OpenFile(True)
-        End If
-    End Sub
-
-    Private Sub _tmpMedia_MediaOpened(ByVal sender As Object, e As EventArgs) Handles _tmpMedia.MediaOpened
-        Dim tmpName As String() = Split(_tmpMedia.Source.ToString, "/")
-        Dim PrettyName As String = tmpName(tmpName.Length - 1)
-        If _tmpMedia.NaturalDuration.HasTimeSpan Then
-            _playlist.Add(New playListItem() With {
-                  .titre = PrettyName,
-                  .duree = _tmpMedia.NaturalDuration.TimeSpan.ToString("hh\:mm\:ss")})
-        Else
-            MsgBox("Cet élément ne peut pas être ajouté à la liste de lecture.")
-        End If
-        _tmpMedia.Close()
-    End Sub
+    ' ************* BEGIN Actions *************
 
     Sub OpenFile(ByVal PlayNow As Boolean)
         Dim fd As OpenFileDialog = New OpenFileDialog()
@@ -110,16 +63,6 @@ Class MainWindow
                 _tmpMedia.Open(New Uri(fd.FileName))
             End If
         End If
-    End Sub
-
-    Private Sub ShowPlayButton()
-        pauseButton.Visibility = Visibility.Collapsed
-        playButton.Visibility = Visibility.Visible
-    End Sub
-
-    Private Sub HidePlayButton()
-        playButton.Visibility = Visibility.Collapsed
-        pauseButton.Visibility = Visibility.Visible
     End Sub
 
     Sub Play()
@@ -153,6 +96,100 @@ Class MainWindow
         End If
     End Sub
 
+    ' ************* END Actions *************
+
+    ' ************* BEGIN Helpers *************
+
+    ' *** BEGIN Panel ***
+    Private Sub ShowPanel()
+        panel.Opacity = 0.7
+    End Sub
+
+    Private Sub HidePanel()
+        panel.Opacity = 0
+    End Sub
+    ' *** END Panel ***
+
+    ' *** BEGIN Buttons ***
+    Private Sub ShowPlayButton()
+        pauseButton.Visibility = Visibility.Collapsed
+        playButton.Visibility = Visibility.Visible
+    End Sub
+
+    Private Sub HidePlayButton()
+        playButton.Visibility = Visibility.Collapsed
+        pauseButton.Visibility = Visibility.Visible
+    End Sub
+    ' *** END Buttons ***
+
+    ' *** BEGIN Sliders ***
+    Private Sub UpdateCurrentTime()
+        mediaScreen.Position = TimeSpan.FromSeconds(timeSlider.Value)
+        timeSliderCurrentTime.Content = TimeSpan.FromSeconds(timeSlider.Value).ToString("hh\:mm\:ss")
+    End Sub
+    ' *** END Sliders ***
+
+    ' ************* END Helpers *************
+
+    ' ************* BEGIN Events Handling *************
+
+    ' *** BEGIN PlayerCanvas ***
+    Private Sub PlayerCanvas_MouseWheel(ByVal sender As Object, e As MouseWheelEventArgs) Handles PlayerCanvas.MouseWheel
+        Dim Diff As Double = IIf((e.Delta > 0), 0.1, -0.1)
+        If Not (volumeSlider.Value + Diff > volumeSlider.Maximum OrElse volumeSlider.Value + Diff < volumeSlider.Minimum) Then
+            volumeSlider.Value = Math.Round(volumeSlider.Value + Diff, 1)
+        End If
+    End Sub
+
+    Private Sub PlayerCanvas_MouseEnter(ByVal sender As Object, e As EventArgs) Handles PlayerCanvas.MouseEnter
+        ShowPanel()
+    End Sub
+
+    Private Sub PlayerCanvas_MouseLeave(ByVal sender As Object, e As EventArgs) Handles PlayerCanvas.MouseLeave
+        HidePanel()
+    End Sub
+
+    Private Sub PlayerCanvas_LeftClick(ByVal sender As Object, e As EventArgs) Handles PlayerCanvas.MouseLeftButtonDown
+        If mediaScreen.Source = Nothing Then
+            OpenFile(True)
+        End If
+    End Sub
+    ' *** END PlayerCanvas ***
+
+    ' *** BEGIN mediaScreen ***
+    Private Sub mediaScreen_Load(ByVal sender As Object, e As EventArgs) Handles mediaScreen.Loaded
+        timeSlider.Value = 0
+        timeSlider.Minimum = 0
+        volumeSlider.Value = 0.5
+        speedSlider.Value = 1
+    End Sub
+
+    Private Sub mediaScreen_MediaOpened(ByVal sender As Object, ByVal args As RoutedEventArgs) Handles mediaScreen.MediaOpened
+        If mediaScreen.NaturalDuration.HasTimeSpan Then
+            ShowPanel()
+            timeSliderCurrentTime.Content = "00:00:00"
+
+            timeSlider.Maximum = mediaScreen.NaturalDuration.TimeSpan.TotalSeconds
+            timeSliderMaxTime.Content = mediaScreen.NaturalDuration.TimeSpan.ToString("hh\:mm\:ss")
+        Else
+            HidePanel()
+        End If
+    End Sub
+
+    Private Sub mediaScreen_MediaFailed(ByVal sender As Object, ByVal args As RoutedEventArgs) Handles mediaScreen.MediaFailed
+        StopIt()
+        mediaScreen.Source = Nothing
+        timeSlider.Maximum = 1
+        timeSliderMaxTime.Content = "00:00:00"
+        MsgBox("Le fichier sélectionné n'est pas lisible par le lecteur.")
+    End Sub
+
+    Private Sub mediaScreen_MediaEnded(ByVal sender As Object, ByVal args As RoutedEventArgs) Handles mediaScreen.MediaEnded
+        StopIt()
+    End Sub
+    ' *** END mediaScreen ***
+
+    ' *** BEGIN File Buttons ***
     Private Sub openButton_Click(sender As Object, e As RoutedEventArgs) Handles openButton.Click
         OpenFile(True)
     End Sub
@@ -165,23 +202,9 @@ Class MainWindow
         StopIt()
         mediaScreen.Source = Nothing
     End Sub
+    ' *** END File Buttons ***
 
-    Private Sub mediaOpened(ByVal sender As Object, ByVal args As RoutedEventArgs)
-        If mediaScreen.NaturalDuration.HasTimeSpan Then
-            ShowPanel()
-            timeSliderCurrentTime.Content = "00:00:00"
-
-            timeSlider.Maximum = mediaScreen.NaturalDuration.TimeSpan.TotalSeconds
-            timeSliderMaxTime.Content = mediaScreen.NaturalDuration.TimeSpan.ToString("hh\:mm\:ss")
-        Else
-            HidePanel()
-        End If
-    End Sub
-
-    Private Sub mediaEnded(ByVal sender As Object, ByVal args As RoutedEventArgs)
-        StopIt()
-    End Sub
-
+    ' *** BEGIN Media Buttons ***
     Private Sub playButton_Click(ByVal sender As Object, e As RoutedEventArgs) Handles playButton.Click
         Play()
     End Sub
@@ -193,18 +216,9 @@ Class MainWindow
     Private Sub stopButton_Click(ByVal sender As Object, e As RoutedEventArgs) Handles stopButton.Click
         StopIt()
     End Sub
+    ' *** END Media Buttons ***
 
-    Private Sub UpdateCurrentTime()
-        mediaScreen.Position = TimeSpan.FromSeconds(timeSlider.Value)
-        timeSliderCurrentTime.Content = TimeSpan.FromSeconds(timeSlider.Value).ToString("hh\:mm\:ss")
-    End Sub
-
-    Private Sub timeSlider_Tick(ByVal sender As Object, e As EventArgs) Handles _timer.Tick
-        If mediaScreen.Source <> Nothing AndAlso mediaScreen.NaturalDuration.HasTimeSpan AndAlso Not _isDraggingSlider Then
-            timeSlider.Value = mediaScreen.Position.TotalSeconds
-        End If
-    End Sub
-
+    ' *** BEGIN Sliders ***
     Private Sub timeSlider_DragStarted(ByVal sender As Object, e As RoutedEventArgs)
         If mediaScreen.Source <> Nothing Then
             _isDraggingSlider = True
@@ -238,4 +252,34 @@ Class MainWindow
             speed.Content = speedSlider.Value.ToString & "x"
         End If
     End Sub
+    ' *** END Sliders ***
+
+    ' *** BEGIN _tmpMedia ***
+    Private Sub _tmpMedia_MediaOpened(ByVal sender As Object, e As EventArgs) Handles _tmpMedia.MediaOpened
+        Dim tmpName As String() = Split(_tmpMedia.Source.ToString, "/")
+        Dim PrettyName As String = tmpName(tmpName.Length - 1)
+        If _tmpMedia.NaturalDuration.HasTimeSpan Then
+            _playlist.Add(New playListItem() With {
+                  .titre = PrettyName,
+                  .duree = _tmpMedia.NaturalDuration.TimeSpan.ToString("hh\:mm\:ss")})
+        Else
+            MsgBox("Cet élément ne peut pas être ajouté à la liste de lecture.")
+        End If
+        _tmpMedia.Close()
+    End Sub
+
+    Private Sub _tmpMedia_MediaFailed(ByVal sender As Object, e As EventArgs) Handles _tmpMedia.MediaFailed
+        MsgBox("Cet élément ne peut pas être ajouté à la liste de lecture.")
+    End Sub
+    ' *** END _tmpMedia ***
+
+    ' *** BEGIN _timer ***
+    Private Sub _timer_Tick(ByVal sender As Object, e As EventArgs) Handles _timer.Tick
+        If mediaScreen.Source <> Nothing AndAlso mediaScreen.NaturalDuration.HasTimeSpan AndAlso Not _isDraggingSlider Then
+            timeSlider.Value = mediaScreen.Position.TotalSeconds
+        End If
+    End Sub
+    ' *** END _timer ***
+
+    ' ************* END Events Handling *************
 End Class
