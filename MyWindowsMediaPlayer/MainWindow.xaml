@@ -42,8 +42,8 @@
                                 <ComboBox Width="120">
                                     <ComboBoxItem Content="Playlist"/>
                                     <ComboBoxItem Content="Video"/>
-                                    <ComboBoxItem Content="Photos"/>
-                                    <ComboBoxItem Content="Music"/>
+                                    <ComboBoxItem Content="Photo"/>
+                                    <ComboBoxItem Content="Musique"/>
                                 </ComboBox>
                             </StackPanel>
                         </DockPanel>

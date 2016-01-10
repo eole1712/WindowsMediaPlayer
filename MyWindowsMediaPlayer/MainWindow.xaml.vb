@@ -36,12 +36,25 @@ Class MainWindow
         speedSlider.Value = 1
     End Sub
 
-    Private Sub mediaScreen_GotFocus(ByVal sender As Object, e As EventArgs) Handles PlayerCanvas.MouseEnter
+    Private Sub PlayerCanvas_MouseWheel(ByVal sender As Object, e As MouseWheelEventArgs) Handles PlayerCanvas.MouseWheel
+        Dim Diff As Double = IIf((e.Delta > 0), 0.1, -0.1)
+        If Not (volumeSlider.Value + Diff > volumeSlider.Maximum OrElse volumeSlider.Value + Diff < volumeSlider.Minimum) Then
+            volumeSlider.Value = Math.Round(volumeSlider.Value + Diff, 1)
+        End If
+    End Sub
+
+    Private Sub PlayerCanvas_MouseEnter(ByVal sender As Object, e As EventArgs) Handles PlayerCanvas.MouseEnter
         panel.Opacity = 0.7
     End Sub
 
-    Private Sub mediaScreen_LostFocus(ByVal sender As Object, e As EventArgs) Handles PlayerCanvas.MouseLeave
+    Private Sub PlayerCanvas_MouseLeave(ByVal sender As Object, e As EventArgs) Handles PlayerCanvas.MouseLeave
         panel.Opacity = 0
+    End Sub
+
+    Private Sub PlayerCanvas_LeftClick(ByVal sender As Object, e As EventArgs) Handles PlayerCanvas.MouseLeftButtonUp
+        If mediaScreen.Source = Nothing Then
+            OpenFile(True)
+        End If
     End Sub
 
     Sub OpenFile(ByVal PlayNow As Boolean)
@@ -68,29 +81,38 @@ Class MainWindow
     End Sub
 
     Sub Play()
-        _timer.Start()
-        Try
-            If mediaScreen.Source <> Nothing Then
+        If mediaScreen.Source <> Nothing Then
+            playButton.Visibility = Visibility.Collapsed
+            pauseButton.Visibility = Visibility.Visible
+            _timer.Start()
+            Try
                 mediaScreen.Play()
-            End If
-        Catch ex As Exception
-            mediaScreen.Source = Nothing
-            MsgBox("Le fichier sélectionné n'est pas lisible par le lecteur.")
-        End Try
+            Catch ex As Exception
+                _timer.Stop()
+                mediaScreen.Source = Nothing
+                MsgBox("Le fichier sélectionné n'est pas lisible par le lecteur.")
+            End Try
+        End If
     End Sub
 
     Sub Pause()
         If mediaScreen.CanPause Then
+            pauseButton.Visibility = Visibility.Collapsed
+            playButton.Visibility = Visibility.Visible
             _timer.Stop()
             mediaScreen.Pause()
         End If
     End Sub
 
     Sub StopIt()
-        _timer.Stop()
-        timeSlider.Value = 0
-        timeSliderCurrentTime.Content = "00:00:00"
-        mediaScreen.Stop()
+        If mediaScreen.Source <> Nothing Then
+            pauseButton.Visibility = Visibility.Collapsed
+            playButton.Visibility = Visibility.Visible
+            _timer.Stop()
+            timeSlider.Value = 0
+            timeSliderCurrentTime.Content = "00:00:00"
+            mediaScreen.Stop()
+        End If
     End Sub
 
     Private Sub openButton_Click(sender As Object, e As RoutedEventArgs) Handles openButton.Click
@@ -104,11 +126,14 @@ Class MainWindow
 
     Private Sub mediaOpened(ByVal sender As Object, ByVal args As RoutedEventArgs)
         If mediaScreen.NaturalDuration.HasTimeSpan Then
+            panel.Opacity = 0.7
             timeSlider.Minimum = 0
             timeSliderCurrentTime.Content = "00:00:00"
 
             timeSlider.Maximum = mediaScreen.NaturalDuration.TimeSpan.TotalSeconds
             timeSliderMaxTime.Content = mediaScreen.NaturalDuration.TimeSpan.ToString("hh\:mm\:ss")
+        Else
+            panel.Opacity = 0
         End If
     End Sub
 
@@ -120,9 +145,19 @@ Class MainWindow
         Play()
     End Sub
 
+    Private Sub pauseButton_Click(ByVal sender As Object, e As RoutedEventArgs) Handles pauseButton.Click
+        Pause()
+    End Sub
+
     Private Sub stopButton_Click(ByVal sender As Object, e As RoutedEventArgs) Handles stopButton.Click
         StopIt()
     End Sub
+
+    'Private Sub timeSlider_ValueChanged(ByVal sender As Object, e As RoutedEventArgs) Handles timeSlider.ManipulationStarted
+    '    mediaScreen.Position = TimeSpan.FromSeconds(timeSlider.Value)
+    '    Console.Write("yo")
+    '    timeSliderCurrentTime.Content = TimeSpan.FromSeconds(timeSlider.Value).ToString("hh\:mm\:ss")
+    'End Sub
 
     Private Sub timeSlider_ValueChanged(ByVal sender As Object, e As RoutedPropertyChangedEventArgs(Of Double)) Handles timeSlider.ValueChanged
         mediaScreen.Position = TimeSpan.FromSeconds(timeSlider.Value)
