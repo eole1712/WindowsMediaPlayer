@@ -116,11 +116,11 @@ Class MainWindow
         writer.Close()
     End Sub
 
-    Public Sub Unserialize()
+    Public Sub Unserialize(ByVal FileName As String)
         Dim serializer As New XmlSerializer(GetType(PlaylistItem()))
         'AddHandler serializer.UnknownNode, AddressOf serializer_UnknownNode
         'AddHandler serializer.UnknownAttribute, AddressOf serializer_UnknownAttribute
-        Dim reader As New FileStream("playListHistory.xml", FileMode.Open)
+        Dim reader As New FileStream(FileName, FileMode.Open)
         Dim xmlPlayList() As PlaylistItem = CType(serializer.Deserialize(reader), PlaylistItem())
         reader.Close()
         _playlist.Playlist.Clear()
@@ -237,12 +237,32 @@ Class MainWindow
         OpenFile(False)
     End Sub
 
+    Private Sub openPlaylistButton_Click(sender As Object, e As RoutedEventArgs) Handles openPlaylistButton.Click
+        Dim fd As OpenFileDialog = New OpenFileDialog()
+
+        fd.Title = "Choisissez une playlist à ouvrir..."
+        fd.InitialDirectory = ""
+        fd.Filter = "*.xml"
+        fd.FilterIndex = 2
+        fd.RestoreDirectory = True
+
+        If fd.ShowDialog() = Forms.DialogResult.OK Then
+            Unserialize(fd.FileName)
+        End If
+    End Sub
+
     Private Sub playPlaylistButton_Click(sender As Object, e As RoutedEventArgs) Handles playPlaylistButton.Click
         Dim toPlay As String = _playlist.Play()
         If toPlay <> "" Then
             mediaScreen.Source = New Uri(toPlay)
             Play()
         End If
+    End Sub
+
+    Private Sub savePlaylistButton_Click(sender As Object, e As RoutedEventArgs) Handles savePlaylistButton.Click
+        Dim fd As OpenFileDialog = New OpenFileDialog()
+
+        Serialize()
     End Sub
 
     Private Sub closeButton_Click(sender As Object, e As RoutedEventArgs) Handles closeButton.Click
