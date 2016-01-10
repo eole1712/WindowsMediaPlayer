@@ -7,13 +7,22 @@ Imports System.Windows.Shapes
 Imports System.Windows.Data
 Imports System.Windows.Media
 Imports System.Windows.Input
+Imports System.ComponentModel
+Imports System.Collections.ObjectModel
 
 Imports System.Windows.Forms
 Imports System.Windows.Threading
 
+
+Public Class playListItem
+    Public Property titre As String
+    Public Property duree As String
+End Class
+
 Class MainWindow
 
     Private Property _isDraggingSlider As Boolean = False
+    Public Property playList As ObservableCollection(Of playListItem)
     Private WithEvents _timer As DispatcherTimer
 
     Sub New()
@@ -24,6 +33,11 @@ Class MainWindow
         _timer = New DispatcherTimer()
         _timer.Interval = TimeSpan.FromSeconds(1)
 
+        playList = New ObservableCollection(Of playListItem)()
+
+        playList.Add(New playListItem() With {
+                          .titre = "Film truc",
+                          .duree = "00:00:00"})
         'timeSliderCurrentTime.Content.SetBinding(TimeSpan.FromSeconds(timeSlider.Value).ToString("hh\: mm\: ss"), "timeSliderCurrentTime")
         'timeSliderCurrentTime.Content.SetBinding(_txt, New Forms.Binding("timeSliderCurrentTime", _txt, timeSliderCurrentTime.Content))
 

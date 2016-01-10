@@ -15,6 +15,7 @@
             <Menu DockPanel.Dock="Top">
                 <MenuItem Header="_Fichier">
                     <MenuItem x:Name="openButton" Header="_Ouvrir"/>
+                    <MenuItem x:Name="playListOpenButton" Header="_Ajouter à la list de lecture"/>
                     <MenuItem x:Name="closeButton" Header="_Fermer"/>
                     <MenuItem x:Name="recentFileButton" Header="_Fichier récents"/>
                     <Separator />
@@ -48,11 +49,11 @@
                             </StackPanel>
                         </DockPanel>
                         <DockPanel Grid.Row="1">
-                            <ListView x:Name="playList" Margin="2">
+                            <ListView x:Name="list" Margin="2"  ItemsSource="{Binding Path=playList}">
                                 <ListView.View>
-                                    <GridView>
-                                        <GridViewColumn Header="Titre" Width="Auto" />
-                                        <GridViewColumn Header="Durée" Width="Auto" />
+                                    <GridView  AllowsColumnReorder="True" ColumnHeaderToolTip="List de lecture">
+                                        <GridViewColumn Header="Titre" Width="Auto" DisplayMemberBinding="{Binding Path=titre}"/>
+                                        <GridViewColumn Header="Durée" Width="Auto" DisplayMemberBinding="{Binding Path=duree}"/>
                                     </GridView>
                                 </ListView.View>
                             </ListView>
