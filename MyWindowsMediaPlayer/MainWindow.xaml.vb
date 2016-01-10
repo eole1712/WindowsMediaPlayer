@@ -237,6 +237,10 @@ Class MainWindow
     Private Sub closeButton_Click(sender As Object, e As RoutedEventArgs) Handles closeButton.Click
         StopClose()
     End Sub
+
+    Private Sub quitButton_Click(sender As Object, e As RoutedEventArgs) Handles quitButton.Click
+        Application.Current.Shutdown()
+    End Sub
     ' *** END File Buttons ***
 
     ' *** BEGIN Playlist Buttons ***

@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MyWindowsMediaPlayer"
         mc:Ignorable="d"
-        Title="My Window Media Player" Height="672" Width="1054">
+        Title="My Window Media Player" Height="672" Width="1054" MinWidth="720" MinHeight="480">
     <Grid Margin="0">
         <Grid.RowDefinitions>
             <RowDefinition Height="24"  x:Name="menuBar"/>
